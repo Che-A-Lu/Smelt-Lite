@@ -1,98 +1,78 @@
-# Smelt — a `.card` file format for human-AI collaboration
+# Smelt — `.card` file format for human-AI output
 
-> *This is an early, imperfect work by someone figuring things out as they go.*
-
----
-
-## I'm a beginner
-
-My name is Dalu Wang. I'm a third-year international trade student at Shanghai University of International Business and Economics. I can't write code. What you see here was built with an AI coding assistant (DeepSeek V4 Pro — not the most powerful model out there) over the course of one week.
-
-I'm not a developer. I don't work at a tech company. I just spent a lot of time working with AI on a research paper, and at the end of it, I realized: **I had nothing to show for the process.** Chat logs. Scattered files. The thinking, the dead ends, the breakthroughs — all gone.
-
-This is my attempt to answer one question: **what should human-AI collaboration output look like?**
+> Smelt doesn't compete with ChatGPT. Smelt harvests your conversations — from any AI tool — and turns them into portable `.card` files you own, edit, and share.
 
 ---
 
-## What is a `.card` file?
+## What is this?
 
-A `.card` file is an **open, portable container for human-AI collaboration output**. Think of it like `.docx` for Word documents, or `.ipynb` for Jupyter notebooks — but for the thing you and an AI create together.
+A **`.card` file** is a standard ZIP archive containing your full AI collaboration: every prompt, every tool call, the AI's thinking traces, all generated files, modification history, and cryptographic signatures. Rename it to `.zip` and open it with anything. The format is open (MPL 2.0) — any application can read and write it.
 
-It's a standard ZIP archive (rename to `.zip` and open it with anything) containing:
+**This repository** contains two things:
 
-- **`manifest.json`** — metadata, file inventory with per-file SHA-256 hashes
-- **`artifacts/`** — the actual files (data, reports, scripts, images)
-- **`process.jsonl`** — every prompt, every tool call, the AI's full thinking trace
-- **`edits.json`** — modification history: who changed what, when, and why
-- **`signature.json`** — ECDSA P-256 cryptographic provenance chain
+1. The **`.card` format specification** (`FORMAT.md`) — a standalone document anyone can implement
+2. The **reference implementation** (`app/`) — a browser-based workspace that proves the format works end to end
 
-**This is an open format, not a platform.** Any application can read and write `.card` files. The format is documented and license-free (MPL 2.0). No vendor lock-in. No account required.
-
-If you've ever used Jupyter notebooks, image Docker containers, or ZIP archives — `.card` follows the same philosophy. Simple structure. Transparent. Inspectable.
+This browser version is not the product. It is the first codebase — the prototype that let us design, test, and validate every interaction. The real delivery vehicle will be a Chrome extension that adds a "Save as .card" button directly into ChatGPT, Claude, Kimi, and other AI tools.
 
 ---
 
-## Smelt: a reference implementation
-
-Smelt is a **browser-based workspace** for working with `.card` files. It proves the format works.
-
-**Quick start:**
+## Quick start
 
 ```bash
 cd app
 npm install
 npm run dev        # → http://localhost:5173
-npx tsc --noEmit   # zero TypeScript errors, 42 source files
+npx tsc --noEmit   # zero errors, 42 source files
 ```
 
-**What you can do:**
+---
 
-- **Drag files in** — CSV, Excel, Markdown, images, Python scripts, JSON — they become cards on an infinite canvas
-- **Open a workbench** — double-click any card to start an AI conversation. Cards you add to the context zone are automatically injected into every prompt
-- **Multi-model support** — 9 AI providers (OpenAI, Anthropic Claude, Google Gemini, DeepSeek, Kimi, Qwen, Zhipu, Groq, custom), 3 native API protocols
-- **Built-in tools for AI** — `card_read`, `card_create`, `card_update`, `card_tag`, `card_search`, `card_list`, plus `script_run` for executing tool cards in an isolated Web Worker sandbox
-- **Three collaboration modes** — **pipeline** (serial steps: analyze → write → verify), **team** (parallel personas: skeptic + analyst + conservative), **orchestrator** (AI-directed task delegation)
-- **Export as `.card`** — select cards, right-click, add metadata, optionally encrypt (AES-256-GCM) and sign (ECDSA P-256), download
-- **Import `.card`** files — 4-step verification: unpack → security scan → signature validation → selective import
-- **Provenance tracking** — every re-export appends a signature to the chain. Full modification history visible on import
-- **Decentralized trust** — contact trust based on repeated encounters (not a central certificate authority). Each signer's key fingerprint is tracked locally
-- **Bilingual** — full Chinese and English UI
+## What the reference implementation does
 
-## What's missing (honest list)
-
-- No standalone `.card` packager yet — you need the space to export
-- The workbench UI hasn't been tested on mobile
-- No collaborative real-time editing
-- Only JavaScript/Python-like scripts can run in the sandbox (no compiled languages)
-- Card preview snapshots are PNG renders — not native file viewers for Excel or PDF
-- I'm sure there are bugs I haven't found
+- **Infinite canvas** — drag files in, get cards. Cards have physics. Dock them to activate
+- **Workbench** — double-click a card to chat with AI. Context cards auto-injected. Built-in tools
+- **Multi-model** — 9 providers, 3 native protocols (OpenAI, Anthropic Messages, Gemini)
+- **Export** — select cards → right-click → package as `.card` (AES-256-GCM encryption, ECDSA P-256 signing, per-file SHA-256 hashes)
+- **Import** — drag a `.card` in → 4-step verification → cards appear, provenance chain visible
+- **Three collaboration modes** — pipeline (serial steps), team (parallel personas), orchestrator (AI-directed delegation)
+- **Bilingual** — Chinese and English
 
 ## Architecture
 
 ```
-foundation/   → shared types, internationalization
-platform/     → storage (OPFS), settings (AES-encrypted API keys)
-features/     → AI adapters, identity & signing, import, export, sandbox, snapshot generator, tool registry, collaboration modes, card templates
-ui/           → canvas, cards, dock, packs, workbench, panels, dialogs, shared components
+foundation/ → types, i18n
+platform/   → storage, settings
+features/   → AI adapters, identity, import/export, sandbox, snapshots, tools, modes
+ui/         → canvas, cards, dock, packs, workbench, panels
 ```
 
-Four-layer unidirectional dependency. Only `platform/storage.ts` touches the filesystem (Origin Private File System). Everything runs in the browser — no backend server.
+Four-layer unidirectional dependency. Only `platform/storage.ts` touches the filesystem.
 
-## Why this exists
+## What this isn't (yet)
 
-There are at least 8 similar projects (CLAN, Capsules, AGX, PromptPack, etc.) — all built by developers, for developers. None of them ask: "What would this look like for a student who just needs to analyze a spreadsheet and share the result?"
+- Not a Chrome extension — you can't install it and press "Save as .card" inside ChatGPT
+- Not a desktop app — no PWA/Tauri wrapper yet
+- No mobile support — browser-only on desktop
+- The UX is still rough — you will find bugs
 
-I am that student. I didn't write a single line of this code — but I defined every interaction, every animation frame, every design decision. The AI executed. The human defined. The output is open.
+## Where this is going
 
-## Search-friendly keywords
+**Phase 1**: Chrome extension (Smelt-Lite). A floating canvas that opens on any AI chat page. Parse the conversation, visualize as cards, edit, export — without leaving the page.
 
-`.card` file format · human-AI collaboration format · AI workbench · portable AI output · open file standard · agent session format · AI provenance · browser-based workspace · TypeScript · OPFS · ZIP-based container · ECDSA signing · AES-GCM encryption · multi-model AI · AI pipeline · AI team mode · tool calling · Web Worker sandbox · card-based UI · infinite canvas
+**Phase 2**: Tauri desktop app. Auto-monitor AI tool sessions in the background. A persistent space that feels like home.
 
-## License
-
-MPL 2.0 — the format specification is open; implementations in any programming language are welcome.
+**Phase 3**: A new kind of desktop. Where every AI tool runs on the Smelt canvas, and `.card` isn't something you export — it's the natural shape your work takes.
 
 ---
 
-*Built by [@Che-A-Lu](https://github.com/Che-A-Lu) (Dalu Wang), Shanghai, July 2026*
-*Read this in Chinese: [README_ZH.md](README_ZH.md)*
+## Why this exists
+
+I'm a college student. I'm not a developer. I built this with an AI coding assistant because I was frustrated by one thing: after spending hours working with AI on a research paper, I had nothing tangible to show for the process — no record of the thinking, no portable artifact, no way to share the work with someone else and let them continue.
+
+Everyone is building better AI tools. Nobody is building the thing you take with you when you're done.
+
+---
+
+Built by [@Che-A-Lu](https://github.com/Che-A-Lu) (Dalu Wang), Shanghai, July 2026.
+Read this in Chinese: [README_ZH.md](README_ZH.md)
