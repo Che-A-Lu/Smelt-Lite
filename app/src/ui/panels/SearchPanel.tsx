@@ -20,10 +20,10 @@ export function SearchPanel({ onClose }: SearchPanelProps) {
         placeholder={t("search.placeholder")}
         style={{
           width: "100%", padding: "6px 10px", border: "1px solid #e5e7eb",
-          borderRadius: 4, fontSize: 13, outline: "none",
+          borderRadius: 4, fontSize: "0.8125rem", outline: "none",
         }}
       />
-      <div style={{ fontSize: 12, color: "#9ca3af", marginTop: 8 }}>
+      <div style={{ fontSize: "0.75rem", color: "#9ca3af", marginTop: 8 }}>
         {query ? t("search.noResults") : ""}
       </div>
     </div>

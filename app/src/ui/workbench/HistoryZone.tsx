@@ -33,7 +33,7 @@ export function HistoryZone(props: ZoneProps & { scrollRef?: React.RefObject<HTM
   return (
     <div ref={scrollRef} style={{ flex: 1, overflow: "auto", padding: 10, minHeight: 100, maxHeight: 340 }}>
       {messages.length === 0 && !busy && (
-        <div style={{ fontSize: 11, color: "#9ca3af", textAlign: "center", padding: 20 }}>
+        <div style={{ fontSize: "0.6875rem", color: "#9ca3af", textAlign: "center", padding: 20 }}>
           {hasKey ? t("wb.startHint") : t("wb.noKeyHint")}
         </div>
       )}
@@ -57,23 +57,23 @@ export function HistoryZone(props: ZoneProps & { scrollRef?: React.RefObject<HTM
               onChange={() => toggleCheck(i)}
               style={{ width: 12, height: 12, margin: 0, cursor: "pointer" }}
             />
-            <span style={{ fontSize: 9, color: "#9ca3af" }}>
+            <span style={{ fontSize: "0.5625rem", color: "#9ca3af" }}>
               {msg.role === "user" ? t("wb.roleUser") : t("wb.roleAI")}
             </span>
             {msg.role === "assistant" && msg.thinkingTrace && (
               <button
                 onClick={() => toggleCollapse(i)}
-                style={{ fontSize: 9, color: "#6b7280", border: "none", background: "none", cursor: "pointer", padding: 0 }}
+                style={{ fontSize: "0.5625rem", color: "#6b7280", border: "none", background: "none", cursor: "pointer", padding: 0 }}
               >
                 {msg.collapsed ? t("wb.thinkingTrace") + " >" : t("wb.thinkingTrace") + " v"}
               </button>
             )}
           </div>
-          <div style={{ fontSize: 11, color: "#1a1a2e", whiteSpace: "pre-wrap", marginTop: 4 }}>
+          <div style={{ fontSize: "0.6875rem", color: "#1a1a2e", whiteSpace: "pre-wrap", marginTop: 4 }}>
             {msg.content}
           </div>
           {!msg.collapsed && msg.thinkingTrace && (
-            <div style={{ fontSize: 10, color: "#9ca3af", marginTop: 4, padding: 4, background: "#fafbfc", borderRadius: 2 }}>
+            <div style={{ fontSize: "0.625rem", color: "#9ca3af", marginTop: 4, padding: 4, background: "#fafbfc", borderRadius: 2 }}>
               {msg.thinkingTrace}
             </div>
           )}
@@ -83,7 +83,7 @@ export function HistoryZone(props: ZoneProps & { scrollRef?: React.RefObject<HTM
       {busy && (
         <div style={{ padding: 6, borderLeft: "2px solid #3b82f6" }}>
           {streamPhase === "thinking" && (
-            <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 11, color: "#6b7280" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.6875rem", color: "#6b7280" }}>
               <div style={{
                 width: 14, height: 14, borderRadius: "50%",
                 border: "2px solid #e5e7eb", borderTopColor: "#3b82f6",
@@ -93,13 +93,13 @@ export function HistoryZone(props: ZoneProps & { scrollRef?: React.RefObject<HTM
             </div>
           )}
           {streamContent && (
-            <div style={{ fontSize: 11, color: "#1a1a2e", whiteSpace: "pre-wrap" }}>
+            <div style={{ fontSize: "0.6875rem", color: "#1a1a2e", whiteSpace: "pre-wrap" }}>
               {streamContent}
               <span className="blink-cursor">|</span>
             </div>
           )}
           {streamError && (
-            <div style={{ fontSize: 11, color: "#ef4444", marginTop: 4 }}>{streamError}</div>
+            <div style={{ fontSize: "0.6875rem", color: "#ef4444", marginTop: 4 }}>{streamError}</div>
           )}
         </div>
       )}

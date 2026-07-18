@@ -16,12 +16,13 @@ interface CanvasProps {
   onCreateWorkbench: () => void;
   onRefresh: () => void;
   onFileDrop?: (file: File) => void;
+  autoOpenWorkbenchId?: string | null;
 }
 
 type ZoneType = "dock" | "pack" | "context" | "tool" | "mode";
 type DropZone = { el: HTMLElement; type: ZoneType; onDrop?: (cardId: string) => void };
 
-export function Canvas({ index, interaction = defaultInteraction(), onCreateWorkbench, onRefresh, onFileDrop }: CanvasProps) {
+export function Canvas({ index, interaction = defaultInteraction(), onCreateWorkbench, onRefresh, onFileDrop, autoOpenWorkbenchId }: CanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const view = useRef({ x: 0, y: 0, zoom: 1 });
@@ -34,9 +35,24 @@ export function Canvas({ index, interaction = defaultInteraction(), onCreateWork
   const [themeOverride, setThemeOverride] = useState<Partial<InteractionConfig> | null>(null);
   const [quickPreview, setQuickPreview] = useState<string | null>(null);
 
-  const effectiveInteraction = themeOverride
-    ? { ...interaction, ...themeOverride, card: { ...interaction.card, ...(themeOverride.card ?? {}) }, global: { ...interaction.global, ...(themeOverride.global ?? {}) }, spring: { ...interaction.spring, ...(themeOverride.spring ?? {}) }, workbench: { ...interaction.workbench, ...(themeOverride.workbench ?? {}) }, pack: { ...interaction.pack, ...(themeOverride.pack ?? {}) } }
-    : interaction;
+  // autoOpen 工作台
+  useEffect(() => {
+    if (autoOpenWorkbenchId) {
+      setOpenWorkbenches((prev) => new Set([...prev, autoOpenWorkbenchId]));
+    }
+  }, [autoOpenWorkbenchId]);
+
+  const effectiveInteraction = (() => {
+    const base = themeOverride
+      ? { ...interaction, ...themeOverride, card: { ...interaction.card, ...(themeOverride.card ?? {}) }, global: { ...interaction.global, ...(themeOverride.global ?? {}) }, spring: { ...interaction.spring, ...(themeOverride.spring ?? {}) }, workbench: { ...interaction.workbench, ...(themeOverride.workbench ?? {}) }, pack: { ...interaction.pack, ...(themeOverride.pack ?? {}) } }
+      : interaction;
+    const lsCardScale = parseFloat(localStorage.getItem("card-space-cardScale") ?? "1");
+    const lsUiScale = parseFloat(localStorage.getItem("card-space-uiScale") ?? "1");
+    if (lsCardScale !== 1 || lsUiScale !== 1) {
+      return { ...base, global: { ...base.global, cardScale: lsCardScale, uiScale: lsUiScale } };
+    }
+    return base;
+  })();
   const seenCards = useRef(new Set<string>());
   const cardElements = useRef(new Map<string, HTMLElement>());
   const multiDragOrigins = useRef(new Map<string, { x: number; y: number }>());
@@ -462,6 +478,7 @@ export function Canvas({ index, interaction = defaultInteraction(), onCreateWork
         width: "100vw", height: "100vh", overflow: "hidden",
         background: effectiveInteraction.global.backgroundColor,
         fontFamily: effectiveInteraction.global.fontFamily,
+        fontSize: `${16 * effectiveInteraction.global.uiScale}px`,
         position: "relative", touchAction: "none",
       }}
       onPointerDown={onPointerDown}
@@ -550,6 +567,16 @@ export function Canvas({ index, interaction = defaultInteraction(), onCreateWork
             pointerEvents: "none", zIndex: 9999,
           }} />
         )}
+
+        {/* 欢迎状态 */}
+        {Object.values(index.cards).length === 0 && (
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", pointerEvents: "none", color: "#d1d5db", fontFamily: "system-ui, sans-serif" }}>
+            <div style={{ fontSize: "3rem", fontWeight: 300, letterSpacing: 8, marginBottom: 24 }}>Smelt</div>
+            <div style={{ fontSize: "0.8125rem", lineHeight: 2, textAlign: "center" }}>
+              {t("canvas.welcomeHint1")}<br />{t("canvas.welcomeHint2")}<br />{t("canvas.welcomeHint3")}
+            </div>
+          </div>
+        )}
       </div>
 
       {dropActive && (
@@ -559,7 +586,7 @@ export function Canvas({ index, interaction = defaultInteraction(), onCreateWork
           alignItems: "center", justifyContent: "center",
           pointerEvents: "none", zIndex: 1000,
         }}>
-          <span style={{ fontSize: 14, color: "#1a1a2e" }}>{t("canvas.dropHint")}</span>
+          <span style={{ fontSize: "0.875rem", color: "#1a1a2e" }}>{t("canvas.dropHint")}</span>
         </div>
       )}
 
@@ -587,11 +614,11 @@ export function Canvas({ index, interaction = defaultInteraction(), onCreateWork
 
       {/* 多选操作栏 */}
       {selectedIds.size > 1 && (
-        <div style={{ position: "fixed", bottom: 12, left: "50%", transform: "translateX(-50%)", background: "#1a1a2e", color: "#fff", borderRadius: 6, padding: "6px 16px", display: "flex", gap: 12, fontSize: 11, zIndex: 9999, alignItems: "center" }}>
+        <div style={{ position: "fixed", bottom: 12, left: "50%", transform: "translateX(-50%)", background: "#1a1a2e", color: "#fff", borderRadius: 6, padding: "6px 16px", display: "flex", gap: 12, fontSize: "0.6875rem", zIndex: 9999, alignItems: "center" }}>
           <span>{selectedIds.size} selected</span>
-          <button onClick={() => setExportingCardIds(new Set(selectedIds))} style={{ border: "1px solid rgba(255,255,255,0.3)", borderRadius: 3, background: "transparent", color: "#fff", fontSize: 10, cursor: "pointer", padding: "2px 8px" }}>Export</button>
-          <button onClick={() => { if (window.confirm(`Delete ${selectedIds.size} cards?`)) { for (const id of selectedIds) deleteCard(id); setSelectedIds(new Set()); onRefresh(); }}} style={{ border: "1px solid rgba(255,255,255,0.3)", borderRadius: 3, background: "transparent", color: "#ef4444", fontSize: 10, cursor: "pointer", padding: "2px 8px" }}>Delete</button>
-          <button onClick={() => setSelectedIds(new Set())} style={{ border: "none", background: "none", color: "rgba(255,255,255,0.5)", fontSize: 10, cursor: "pointer", padding: 0 }}>Clear</button>
+          <button onClick={() => setExportingCardIds(new Set(selectedIds))} style={{ border: "1px solid rgba(255,255,255,0.3)", borderRadius: 3, background: "transparent", color: "#fff", fontSize: "0.625rem", cursor: "pointer", padding: "2px 8px" }}>Export</button>
+          <button onClick={() => { if (window.confirm(`Delete ${selectedIds.size} cards?`)) { for (const id of selectedIds) deleteCard(id); setSelectedIds(new Set()); onRefresh(); }}} style={{ border: "1px solid rgba(255,255,255,0.3)", borderRadius: 3, background: "transparent", color: "#ef4444", fontSize: "0.625rem", cursor: "pointer", padding: "2px 8px" }}>Delete</button>
+          <button onClick={() => setSelectedIds(new Set())} style={{ border: "none", background: "none", color: "rgba(255,255,255,0.5)", fontSize: "0.625rem", cursor: "pointer", padding: 0 }}>Clear</button>
         </div>
       )}
     </div>
@@ -609,7 +636,7 @@ function StorageBar() {
     })();
   }, []);
   return (
-    <div style={{ position: "fixed", bottom: 8, left: 12, fontSize: 10, color: info.persisted ? "#6b7280" : "#f59e0b", zIndex: 10 }}>
+    <div style={{ position: "fixed", bottom: 8, left: 12, fontSize: "0.625rem", color: info.persisted ? "#6b7280" : "#f59e0b", zIndex: 10 }}>
       {t("storage.usage", String(info.usage))} · {info.persisted ? t("storage.persistOk") : t("storage.persistNo")}
     </div>
   );

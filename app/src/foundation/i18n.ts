@@ -111,6 +111,9 @@ const dict: Record<string, Record<Lang, string>> = {
   "export.pwStrength":       { zh: "强度：{0}",              en: "Strength: {0}" },
   "shortcuts.title":         { zh: "键盘快捷键",              en: "Keyboard shortcuts" },
   "toast.saved":             { zh: "已保存",                en: "Saved" },
+  "canvas.welcomeHint1":     { zh: "拖文件到此处，或 Ctrl+N 新建工作台", en: "Drag files here, or Ctrl+N for a new workbench" },
+  "canvas.welcomeHint2":     { zh: "双击卡片打开工作台，右键卡片导出为 .card", en: "Double-click a card to open workbench, right-click to export as .card" },
+  "canvas.welcomeHint3":     { zh: "这是一张无限画布——拖拽平移，滚轮缩放", en: "Infinite canvas — drag to pan, scroll to zoom" },
 
   // 卡包
   "pack.empty":              { zh: "空包。拖入卡片开始使用。",   en: "Empty. Drag cards here." },

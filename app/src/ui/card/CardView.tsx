@@ -155,6 +155,7 @@ export function CardView({
     if (d.frame < interaction.card.dragDelayFrames) { d.frame++; raf.current = requestAnimationFrame(dragLoop); return; }
     if (d.frame === interaction.card.dragDelayFrames) {
       isDragging.current = true;
+      document.body.style.cursor = "grabbing";
       if (elRef.current) { elRef.current.style.zIndex = "1000"; elRef.current.style.transition = "none"; }
       onDragStart?.(card.id);
     }
@@ -183,6 +184,7 @@ export function CardView({
 
   const finishDrag = useCallback(() => {
     const d = ds.current; d.active = false; cancelAnimationFrame(raf.current); isDragging.current = false;
+    document.body.style.cursor = "";
     const el = elRef.current; if (!el) return;
     const avgVx = (d.px - d.prevPrevPx) / 3; const avgVy = (d.py - d.prevPrevPy) / 3;
     const speed = Math.sqrt(avgVx * avgVx + avgVy * avgVy);
@@ -263,7 +265,7 @@ export function CardView({
         onDoubleClick={onDblClick} onContextMenu={onContextMenu}
         className={isGenerating ? "card-generating" : ""}
         style={{
-          position: "absolute", left: 0, top: 0, width: CARD_W, height: CARD_H,
+          position: "absolute", left: 0, top: 0, width: CARD_W * interaction.global.cardScale, height: CARD_H * interaction.global.cardScale,
           background: "#ffffff",
           border: selected ? "2px solid #1a1a2e" : "1px solid #e5e7eb",
           boxShadow: selected ? "0 0 0 3px rgba(26,26,46,0.08)" : "none",
@@ -279,9 +281,9 @@ export function CardView({
 
         {editing ? (
           <input autoFocus value={editValue} onChange={(e) => setEditValue(e.target.value)} onBlur={commitEdit} onKeyDown={onEditKeyDown}
-            style={{ position: "absolute", left: 20, top: 6, width: 220, border: "1px solid #3b82f6", borderRadius: 2, fontSize: 10, padding: "1px 4px", outline: "none", fontFamily: "inherit" }} />
+            style={{ position: "absolute", left: 20, top: 6, width: 220, border: "1px solid #3b82f6", borderRadius: 2, fontSize: "0.625rem", padding: "1px 4px", outline: "none", fontFamily: "inherit" }} />
         ) : (
-          <div style={{ position: "absolute", left: 20, top: 8, right: 8, fontSize: 10, color: "#1a1a2e", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          <div style={{ position: "absolute", left: 20, top: 8, right: 8, fontSize: "0.625rem", color: "#1a1a2e", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {card.label || t("card.defaultLabel")}
           </div>
         )}
@@ -291,17 +293,17 @@ export function CardView({
           {snapshotUrl ? (
             <img src={snapshotUrl} style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: 2 }} alt="" />
           ) : snapLoading ? (
-            <div style={{ fontSize: 9, color: "#d1d5db", textAlign: "center", paddingTop: 30 }}>...</div>
+            <div style={{ fontSize: "0.5625rem", color: "#d1d5db", textAlign: "center", paddingTop: 30 }}>...</div>
           ) : card.sphereId ? (
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%" }}>
-              <span style={{ fontSize: 20, opacity: 0.3 }}>{category.label}</span>
+              <span style={{ fontSize: "1.25rem", opacity: 0.3 }}>{category.label}</span>
             </div>
           ) : null}
         </div>
 
         {/* 标签区（底部） */}
         {card.tags.length > 0 && (
-          <div style={{ position: "absolute", left: 8, right: 8, bottom: 6, fontSize: 8, color: "#9ca3af", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", lineHeight: 1.2 }}>
+          <div style={{ position: "absolute", left: 8, right: 8, bottom: 6, fontSize: "0.5rem", color: "#9ca3af", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", lineHeight: 1.2 }}>
             {card.tags.join(", ")}
           </div>
         )}
@@ -366,17 +368,17 @@ export function DetailView({ sphereId, cardLabel, onClose }: {
       style={{ position: "fixed", inset: 0, zIndex: 99999, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }}>
       <div onClick={(e) => e.stopPropagation()}
         style={{ background: "#fff", padding: 16, border: "1px solid #d1d5db", maxWidth: "90vw", maxHeight: "90vh", overflow: "auto" }}>
-        <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 8 }}>{cardLabel}</div>
+        <div style={{ fontSize: "0.75rem", fontWeight: 600, marginBottom: 8 }}>{cardLabel}</div>
         {mode === "image" && (
           <img src={content} style={{ maxWidth: "80vw", maxHeight: "80vh", objectFit: "contain" }} alt="" />
         )}
         {mode === "text" && (
-          <pre style={{ fontSize: 11, fontFamily: "monospace", color: "#1a1a2e", whiteSpace: "pre-wrap", maxWidth: 700, maxHeight: "80vh", overflow: "auto", margin: 0 }}>
+          <pre style={{ fontSize: "0.6875rem", fontFamily: "monospace", color: "#1a1a2e", whiteSpace: "pre-wrap", maxWidth: 700, maxHeight: "80vh", overflow: "auto", margin: 0 }}>
             {content}
           </pre>
         )}
         {mode === "unknown" && (
-          <div style={{ fontSize: 14, color: "#9ca3af", padding: 40 }}>Preview not available</div>
+          <div style={{ fontSize: "0.875rem", color: "#9ca3af", padding: 40 }}>Preview not available</div>
         )}
       </div>
     </div>

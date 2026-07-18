@@ -57,7 +57,7 @@ export function ToolZone({ allCards, toolItems, onToolItemsChange, registerZone,
   }, []);
 
   return (
-    <div ref={elRef} style={{ padding: "6px 10px", fontSize: 10, color: "#6b7280", position: "relative", minHeight: 28 }}>
+    <div ref={elRef} style={{ padding: "6px 10px", fontSize: "0.625rem", color: "#6b7280", position: "relative", minHeight: 28 }}>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 4, alignItems: "center" }}>
         {toolItems.map((item) => {
           const cat = fileCategory(item.label);
@@ -68,7 +68,7 @@ export function ToolZone({ allCards, toolItems, onToolItemsChange, registerZone,
               title={item.description}
               style={{
                 display: "inline-flex", alignItems: "center", gap: 4,
-                fontSize: 9, background: "#f5f3ff", border: "1px solid #ddd6fe",
+                fontSize: "0.5625rem", background: "#f5f3ff", border: "1px solid #ddd6fe",
                 borderRadius: 3, padding: "2px 6px", cursor: "context-menu",
                 maxWidth: 130, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
               }}
@@ -82,7 +82,7 @@ export function ToolZone({ allCards, toolItems, onToolItemsChange, registerZone,
           onClick={() => setShowPicker(true)}
           style={{
             width: 20, height: 20, borderRadius: 3, border: "1px dashed #d1d5db",
-            background: "transparent", cursor: "pointer", fontSize: 12, color: "#9ca3af",
+            background: "transparent", cursor: "pointer", fontSize: "0.75rem", color: "#9ca3af",
             display: "flex", alignItems: "center", justifyContent: "center",
             flexShrink: 0,
           }}
@@ -127,23 +127,23 @@ function ToolPicker({ cards, selected, onConfirm, onClose }: {
       style={{ position: "fixed", inset: 0, zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.06)" }}
     >
       <div style={{ width: 280, maxHeight: 360, background: "#fff", border: "1px solid #d1d5db", padding: 12, overflow: "auto" }}>
-        <div style={{ fontSize: 11, color: "#6b7280", marginBottom: 8 }}>{t("wb.toolZone")}</div>
+        <div style={{ fontSize: "0.6875rem", color: "#6b7280", marginBottom: 8 }}>{t("wb.toolZone")}</div>
         {cards.filter((c) => !c.isWorkbench).map((c) => {
           const cat = fileCategory(c.label);
           return (
             <label
               key={c.id}
-              style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 0", fontSize: 11, cursor: "pointer", color: picked.has(c.id) ? "#7c3aed" : "#9ca3af" }}
+              style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 0", fontSize: "0.6875rem", cursor: "pointer", color: picked.has(c.id) ? "#7c3aed" : "#9ca3af" }}
             >
               <input type="checkbox" checked={picked.has(c.id)} onChange={() => toggle(c.id)} style={{ width: 12, height: 12, margin: 0 }} />
               <span style={{ width: 6, height: 12, borderRadius: 1, background: cat.color, flexShrink: 0 }} />
               <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.label}</span>
-              {c.hasScripts && <span style={{ fontSize: 8, background: "#7c3aed", color: "#fff", borderRadius: 2, padding: "0 4px" }}>RUN</span>}
+              {c.hasScripts && <span style={{ fontSize: "0.5rem", background: "#7c3aed", color: "#fff", borderRadius: 2, padding: "0 4px" }}>RUN</span>}
             </label>
           );
         })}
         {cards.filter((c) => !c.isWorkbench).length === 0 && (
-          <div style={{ fontSize: 10, color: "#9ca3af", textAlign: "center", padding: 12 }}>—</div>
+          <div style={{ fontSize: "0.625rem", color: "#9ca3af", textAlign: "center", padding: 12 }}>—</div>
         )}
         <div style={{ display: "flex", gap: 6, marginTop: 12, justifyContent: "flex-end" }}>
           <button onClick={onClose} style={pickerBtn}>{t("ui.cancel")}</button>
@@ -158,5 +158,5 @@ function ToolPicker({ cards, selected, onConfirm, onClose }: {
 
 const pickerBtn: React.CSSProperties = {
   padding: "3px 10px", border: "1px solid #e5e7eb", borderRadius: 4,
-  background: "#fafbfc", fontSize: 11, cursor: "pointer",
+  background: "#fafbfc", fontSize: "0.6875rem", cursor: "pointer",
 };

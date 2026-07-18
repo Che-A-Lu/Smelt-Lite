@@ -109,7 +109,7 @@ export function PackView({ pack, cards, registerZone, unregisterZone }: PackView
     >
       <div
         onClick={toggle}
-        style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 11, color: "#6b7280", cursor: "pointer" }}
+        style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.6875rem", color: "#6b7280", cursor: "pointer" }}
       >
         {editing ? (
           <input
@@ -119,16 +119,16 @@ export function PackView({ pack, cards, registerZone, unregisterZone }: PackView
             onBlur={commitRename}
             onKeyDown={(e) => { if (e.key === "Enter") commitRename(); if (e.key === "Escape") { setEditing(false); setEditValue(pack.label); } }}
             onClick={(e) => e.stopPropagation()}
-            style={{ fontSize: 11, border: "1px solid #3b82f6", borderRadius: 2, padding: "1px 4px", width: 120, outline: "none" }}
+            style={{ fontSize: "0.6875rem", border: "1px solid #3b82f6", borderRadius: 2, padding: "1px 4px", width: 120, outline: "none" }}
           />
         ) : (
           <span>{pack.label}</span>
         )}
-        <span style={{ background: "#e5e7eb", borderRadius: 8, padding: "0 6px", fontSize: 10 }}>{cards.length}</span>
+        <span style={{ background: "#e5e7eb", borderRadius: 8, padding: "0 6px", fontSize: "0.625rem" }}>{cards.length}</span>
       </div>
 
       {isOpen && cards.length === 0 && (
-        <div style={{ fontSize: 10, color: "#9ca3af", marginTop: 8 }}>{t("pack.empty")}</div>
+        <div style={{ fontSize: "0.625rem", color: "#9ca3af", marginTop: 8 }}>{t("pack.empty")}</div>
       )}
 
       {isOpen && cards.length > 0 && (
@@ -142,7 +142,7 @@ export function PackView({ pack, cards, registerZone, unregisterZone }: PackView
               style={{
                 width: 80, height: 112, border: "1px solid #e5e7eb",
                 borderRadius: 4, background: "#fff", flexShrink: 0,
-                fontSize: 8, color: "#6b7280", padding: 3,
+                fontSize: "0.5rem", color: "#6b7280", padding: 3,
                 overflow: "hidden", cursor: "grab", touchAction: "none",
               }}
               title={card.label}

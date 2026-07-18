@@ -23,7 +23,7 @@ export function ContextMenu({ x, y, items, onClose }: ContextMenuProps) {
   }, [onClose]);
 
   return (
-    <div style={{ position: "fixed", left: x, top: y, background: "#fff", border: "1px solid #d1d5db", padding: "4px 0", zIndex: 9999, fontSize: 11, minWidth: 100 }}>
+    <div style={{ position: "fixed", left: x, top: y, background: "#fff", border: "1px solid #d1d5db", padding: "4px 0", zIndex: 9999, fontSize: "0.6875rem", minWidth: 100 }}>
       {items.map((item, i) => (
         <div key={i}>
           {item.separator && <div style={{ borderTop: "1px solid #e5e7eb", margin: "2px 0" }} />}

@@ -143,7 +143,7 @@ export function ImportDialog({ file, onClose, onImported }: ImportDialogProps) {
   if (!parsed) {
     return (
       <Overlay onClose={onClose}>
-        <div style={box}><p style={{ fontSize: 12, color: "#6b7280", textAlign: "center" }}>{t("import.parsing")}</p></div>
+        <div style={box}><p style={{ fontSize: "0.75rem", color: "#6b7280", textAlign: "center" }}>{t("import.parsing")}</p></div>
       </Overlay>
     );
   }
@@ -158,7 +158,7 @@ export function ImportDialog({ file, onClose, onImported }: ImportDialogProps) {
         <div style={{ display: "flex", gap: 4, marginBottom: 16 }}>
           {STEP_ORDER.map((s, i) => (
             <div key={s} style={{
-              padding: "2px 8px", borderRadius: 3, fontSize: 10,
+              padding: "2px 8px", borderRadius: 3, fontSize: "0.625rem",
               background: i === stepIdx ? "#1a1a2e" : i < stepIdx ? "#e5e7eb" : "transparent",
               color: i === stepIdx ? "#fff" : "#6b7280",
             }}>
@@ -170,7 +170,7 @@ export function ImportDialog({ file, onClose, onImported }: ImportDialogProps) {
         {/* 卡片信息（始终可见） */}
         {manifest && (
           <div style={{ marginBottom: 12, padding: 8, background: "#fafbfc", borderRadius: 4 }}>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "#1a1a2e" }}>{manifest.label || file.name}</div>
+            <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "#1a1a2e" }}>{manifest.label || file.name}</div>
             <div style={infoRow}><span>{t("export.author")}:</span> {manifest.author || t("import.unknown")}</div>
             <div style={infoRow}><span>{t("export.version")}:</span> {manifest.version || "1.0.0"}</div>
             <div style={infoRow}>
@@ -188,16 +188,16 @@ export function ImportDialog({ file, onClose, onImported }: ImportDialogProps) {
         {step === "security" && (
           <div style={{ marginBottom: 12 }}>
             {parsed.errors.length > 0 && parsed.errors.map((e, i) => (
-              <div key={i} style={{ fontSize: 10, color: "#ef4444", padding: "2px 0" }}>{e.message}</div>
+              <div key={i} style={{ fontSize: "0.625rem", color: "#ef4444", padding: "2px 0" }}>{e.message}</div>
             ))}
             {parsed.warnings.map((w, i) => (
-              <div key={i} style={{ fontSize: 10, color: "#f59e0b", padding: "2px 0" }}>{w.message}</div>
+              <div key={i} style={{ fontSize: "0.625rem", color: "#f59e0b", padding: "2px 0" }}>{w.message}</div>
             ))}
             {hashIssues.map((h, i) => (
-              <div key={`h${i}`} style={{ fontSize: 10, color: "#f59e0b", padding: "2px 0" }}>{h.msg}</div>
+              <div key={`h${i}`} style={{ fontSize: "0.625rem", color: "#f59e0b", padding: "2px 0" }}>{h.msg}</div>
             ))}
             {parsed.errors.length === 0 && parsed.warnings.length === 0 && hashIssues.length === 0 && (
-              <div style={{ fontSize: 11, color: "#22c55e" }}>{t("import.noIssues")}</div>
+              <div style={{ fontSize: "0.6875rem", color: "#22c55e" }}>{t("import.noIssues")}</div>
             )}
             <button onClick={nextStep} style={nextBtn}>{t("import.next")}</button>
           </div>
@@ -218,21 +218,21 @@ export function ImportDialog({ file, onClose, onImported }: ImportDialogProps) {
                   <div style={infoRow}>{t("export.signedAs")}: {sigResult.originalAuthor}</div>
                 )}
                 {trustInfo && (
-                  <div style={{ marginTop: 4, fontSize: 10 }}>
+                  <div style={{ marginTop: 4, fontSize: "0.625rem" }}>
                     {trustInfo.firstTime
                       ? <span style={{ color: "#f59e0b" }}>{t("import.firstSeen")}</span>
                       : <span style={{ color: "#22c55e" }}>{t("import.trusted", String(trustInfo.count))}</span>
                     }
-                    <button onClick={() => setTrusted(trustInfo.fp, !trustInfo.trusted)} style={{ marginLeft: 8, border: "none", background: "none", fontSize: 9, color: "#3b82f6", cursor: "pointer", padding: 0 }}>
+                    <button onClick={() => setTrusted(trustInfo.fp, !trustInfo.trusted)} style={{ marginLeft: 8, border: "none", background: "none", fontSize: "0.5625rem", color: "#3b82f6", cursor: "pointer", padding: 0 }}>
                       {trustInfo.trusted ? t("import.trustRemove") : t("import.trustAdd")}
                     </button>
                   </div>
                 )}
                 {editsLog && editsLog.chain.length > 0 && (
-                  <div style={{ marginTop: 6, fontSize: 10, color: "#6b7280" }}>
+                  <div style={{ marginTop: 6, fontSize: "0.625rem", color: "#6b7280" }}>
                     <div>{t("import.editsHistory", String(editsLog.chain.length))}:</div>
                     {editsLog.chain.map((edit, i) => (
-                      <div key={i} style={{ padding: "2px 0", fontSize: 9 }}>
+                      <div key={i} style={{ padding: "2px 0", fontSize: "0.5625rem" }}>
                         {i + 1}. {edit.editor} ({new Date(edit.timestamp).toLocaleDateString()})
                         {edit.note && <span> — {edit.note}</span>}
                       </div>
@@ -241,7 +241,7 @@ export function ImportDialog({ file, onClose, onImported }: ImportDialogProps) {
                 )}
               </div>
             ) : (
-              <div style={{ fontSize: 11, color: "#9ca3af" }}>{t("import.unsigned")}</div>
+              <div style={{ fontSize: "0.6875rem", color: "#9ca3af" }}>{t("import.unsigned")}</div>
             )}
             <button onClick={nextStep} style={nextBtn}>{t("import.next")}</button>
           </div>
@@ -252,7 +252,7 @@ export function ImportDialog({ file, onClose, onImported }: ImportDialogProps) {
           <div style={{ marginBottom: 12 }}>
             <div style={{ marginBottom: 8 }}>
               {parsed.contentFiles.map((f) => (
-                <label key={f.name} style={{ display: "flex", alignItems: "center", gap: 6, padding: "3px 0", fontSize: 11, color: "#1a1a2e", cursor: "pointer" }}>
+                <label key={f.name} style={{ display: "flex", alignItems: "center", gap: 6, padding: "3px 0", fontSize: "0.6875rem", color: "#1a1a2e", cursor: "pointer" }}>
                   <input
                     type="checkbox"
                     checked={selected.has(f.name)}
@@ -260,7 +260,7 @@ export function ImportDialog({ file, onClose, onImported }: ImportDialogProps) {
                     style={{ width: 12, height: 12, margin: 0 }}
                   />
                   <span style={{ flex: 1 }}>{f.name}</span>
-                  <span style={{ fontSize: 9, color: "#9ca3af" }}>{Math.round(f.size / 1024)}KB</span>
+                  <span style={{ fontSize: "0.5625rem", color: "#9ca3af" }}>{Math.round(f.size / 1024)}KB</span>
                 </label>
               ))}
             </div>
@@ -274,7 +274,7 @@ export function ImportDialog({ file, onClose, onImported }: ImportDialogProps) {
         {/* 加密验证 */}
         {parsed.encrypted && (
           <div style={{ marginBottom: 12, padding: 8, background: "#fffbf0", borderRadius: 4 }}>
-            <div style={{ fontSize: 11, color: "#f59e0b", marginBottom: 6 }}>{t("import.encrypted")}</div>
+            <div style={{ fontSize: "0.6875rem", color: "#f59e0b", marginBottom: 6 }}>{t("import.encrypted")}</div>
             <div style={{ display: "flex", gap: 6 }}>
               <input
                 type="password"
@@ -287,8 +287,8 @@ export function ImportDialog({ file, onClose, onImported }: ImportDialogProps) {
                 {t("ui.confirm")}
               </button>
             </div>
-            {pwError && <div style={{ fontSize: 10, color: "#ef4444", marginTop: 4 }}>{t("import.badPassword")}</div>}
-            {pwOK && <div style={{ fontSize: 10, color: "#22c55e", marginTop: 4 }}>{t("import.sigOK")}</div>}
+            {pwError && <div style={{ fontSize: "0.625rem", color: "#ef4444", marginTop: 4 }}>{t("import.badPassword")}</div>}
+            {pwOK && <div style={{ fontSize: "0.625rem", color: "#22c55e", marginTop: 4 }}>{t("import.sigOK")}</div>}
           </div>
         )}
 
@@ -313,7 +313,7 @@ export function ImportDialog({ file, onClose, onImported }: ImportDialogProps) {
           )}
           {/* importing */}
           {step === "importing" && (
-            <div style={{ fontSize: 12, color: "#6b7280" }}>{t("import.parsing")}</div>
+            <div style={{ fontSize: "0.75rem", color: "#6b7280" }}>{t("import.parsing")}</div>
           )}
           {/* 其他步骤的取消 */}
           {step !== "select" && step !== "importing" && (
@@ -338,24 +338,24 @@ function Overlay({ children, onClose }: { children: React.ReactNode; onClose: ()
   );
 }
 
-const infoRow: React.CSSProperties = { fontSize: 10, color: "#6b7280", padding: "1px 0" };
+const infoRow: React.CSSProperties = { fontSize: "0.625rem", color: "#6b7280", padding: "1px 0" };
 const inputStyle: React.CSSProperties = {
   flex: 1, padding: "4px 8px", border: "1px solid #e5e7eb",
-  borderRadius: 4, fontSize: 12, outline: "none", boxSizing: "border-box" as any,
+  borderRadius: 4, fontSize: "0.75rem", outline: "none", boxSizing: "border-box" as any,
 };
 const box: React.CSSProperties = {
   width: 420, background: "#ffffff", border: "1px solid #d1d5db", padding: 20,
 };
 const cancelBtn: React.CSSProperties = {
   padding: "4px 12px", border: "1px solid #e5e7eb", borderRadius: 4,
-  background: "#fafbfc", fontSize: 12, cursor: "pointer",
+  background: "#fafbfc", fontSize: "0.75rem", cursor: "pointer",
 };
 const confirmBtn: React.CSSProperties = {
   padding: "4px 14px", border: "1px solid #1a1a2e", borderRadius: 4,
-  background: "#1a1a2e", color: "#fff", fontSize: 12, cursor: "pointer",
+  background: "#1a1a2e", color: "#fff", fontSize: "0.75rem", cursor: "pointer",
 };
 const nextBtn: React.CSSProperties = { ...confirmBtn, marginTop: 12 };
 const smallBtn: React.CSSProperties = {
   padding: "2px 8px", border: "1px solid #e5e7eb", borderRadius: 3,
-  background: "#fafbfc", fontSize: 10, cursor: "pointer", color: "#6b7280",
+  background: "#fafbfc", fontSize: "0.625rem", cursor: "pointer", color: "#6b7280",
 };

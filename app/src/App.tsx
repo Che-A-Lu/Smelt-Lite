@@ -18,6 +18,7 @@ export default function App() {
   const [, forceUpdate] = useState(0);
   const [importFile, setImportFile] = useState<File | null>(null);
   const [showShortcuts, setShowShortcuts] = useState(false);
+  const [autoOpenWb, setAutoOpenWb] = useState<string | null>(null);
 
   useEffect(() => {
     initSpace((msg) => console.warn(msg)).then(setIndex);
@@ -38,15 +39,16 @@ export default function App() {
   // 新建工作台卡片
   const createWorkbench = useCallback(() => {
     if (!index) return;
-    const card = createCard(t("wb.newSession"), { x: 100 + Math.random() * 200, y: 100 + Math.random() * 200 });
+    const card = createCard(t("wb.newSession"), { x: 300, y: 200 });
     card.isWorkbench = true;
     refresh();
+    setAutoOpenWb(card.id);
   }, [index, refresh]);
 
   if (!index) {
     return (
       <div style={loadingStyle}>
-        <div style={{ fontSize: 14, color: "#6b7280" }}>{t("ui.loading")}</div>
+        <div style={{ fontSize: "0.875rem", color: "#6b7280" }}>{t("ui.loading")}</div>
       </div>
     );
   }
@@ -68,7 +70,7 @@ export default function App() {
         </div>
       </div>
 
-      <Canvas index={index} interaction={interaction} onCreateWorkbench={createWorkbench} onRefresh={refresh} onFileDrop={setImportFile} />
+      <Canvas index={index} interaction={interaction} onCreateWorkbench={createWorkbench} onRefresh={refresh} onFileDrop={setImportFile} autoOpenWorkbenchId={autoOpenWb} />
 
       {panel === "settings" && <SettingsPanel onClose={() => setPanel(null)} />}
       {panel === "search" && <SearchPanel onClose={() => setPanel(null)} />}
@@ -93,11 +95,11 @@ const toolbarStyle: React.CSSProperties = {
 
 const toolbarBtnStyle: React.CSSProperties = {
   padding: "4px 10px", border: "none", borderRadius: 4,
-  background: "transparent", fontSize: 12, color: "#6b7280",
+  background: "transparent", fontSize: "0.75rem", color: "#6b7280",
   cursor: "pointer",
 };
 
 const loadingStyle: React.CSSProperties = {
   display: "flex", alignItems: "center", justifyContent: "center",
-  height: "100vh", color: "#6b7280", fontSize: 14,
+  height: "100vh", color: "#6b7280", fontSize: "0.875rem",
 };

@@ -628,41 +628,41 @@ export function Workbench({ card, interaction, allCards, registerZone, unregiste
       {/* 右大区 */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
         {/* Header 行 */}
-        <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 8px", borderBottom: "1px solid #f3f4f6", fontSize: 10, color: "#6b7280", flexWrap: "wrap" }}>
-          <button onClick={toggleMode} style={{ border: "none", background: "none", fontSize: 10, color: autoMode ? "#22c55e" : "#f59e0b", cursor: "pointer", padding: 0, whiteSpace: "nowrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 8px", borderBottom: "1px solid #f3f4f6", fontSize: "0.625rem", color: "#6b7280", flexWrap: "wrap" }}>
+          <button onClick={toggleMode} style={{ border: "none", background: "none", fontSize: "0.625rem", color: autoMode ? "#22c55e" : "#f59e0b", cursor: "pointer", padding: 0, whiteSpace: "nowrap" }}>
             {autoMode ? t("wb.autoMode") : t("wb.manualMode")}
           </button>
           <select value={localModel} onChange={(e) => setLocalModel(e.target.value)}
-            style={{ fontSize: 9, border: "1px solid #e5e7eb", borderRadius: 3, padding: "1px 4px", outline: "none", color: "#6b7280", background: "#fafbfc", maxWidth: 140 }}>
+            style={{ fontSize: "0.5625rem", border: "1px solid #e5e7eb", borderRadius: 3, padding: "1px 4px", outline: "none", color: "#6b7280", background: "#fafbfc", maxWidth: 140 }}>
             {Object.values(BUILTIN_PROVIDERS).filter((p) => p.id !== "custom").flatMap((p) =>
               p.models.map((m) => <option key={m} value={m}>{p.label} / {m}</option>)
             )}
           </select>
           <button onClick={() => setShowModeSlot((v) => !v)}
-            style={{ border: "1px solid #e5e7eb", borderRadius: 3, padding: "1px 4px", fontSize: 9, background: modeCardData ? "#f0f7ff" : "#fafbfc", cursor: "pointer", color: modeCardData ? "#1a1a2e" : "#6b7280", whiteSpace: "nowrap" }}>
+            style={{ border: "1px solid #e5e7eb", borderRadius: 3, padding: "1px 4px", fontSize: "0.5625rem", background: modeCardData ? "#f0f7ff" : "#fafbfc", cursor: "pointer", color: modeCardData ? "#1a1a2e" : "#6b7280", whiteSpace: "nowrap" }}>
             {modeCardData ? `${typeShort(modeCardData.type)}: ${modeCardData.name}` : `${t("wb.modeButton")} >`}
           </button>
           <select value={thinkingMode} onChange={(e) => { setThinkingMode(e.target.value); localStorage.setItem("card-space-thinking-mode", e.target.value); }}
-            style={{ fontSize: 9, border: "1px solid #e5e7eb", borderRadius: 3, padding: "1px 4px", outline: "none", color: "#6b7280", background: "#fafbfc" }}>
+            style={{ fontSize: "0.5625rem", border: "1px solid #e5e7eb", borderRadius: 3, padding: "1px 4px", outline: "none", color: "#6b7280", background: "#fafbfc" }}>
             <option value="last">{t("wb.thinkLabel")} last</option>
             <option value="off">{t("wb.thinkLabel")} off</option>
             <option value="all">{t("wb.thinkLabel")} all</option>
           </select>
-          {lastToolCall && <span style={{ fontSize: 9, color: "#9ca3af", flex: "1 0 auto", textAlign: "right" }}>{t("wb.toolExecuted", lastToolCall)}</span>}
+          {lastToolCall && <span style={{ fontSize: "0.5625rem", color: "#9ca3af", flex: "1 0 auto", textAlign: "right" }}>{t("wb.toolExecuted", lastToolCall)}</span>}
         </div>
 
         {/* 确认条 / 暂停条 / 模式 Toast / ModeSlot */}
-        {modeToast && <div style={{ padding: "4px 10px", background: "#fef2f2", borderBottom: "1px solid #fecaca", fontSize: 10, color: "#dc2626" }}>{modeToast}</div>}
+        {modeToast && <div style={{ padding: "4px 10px", background: "#fef2f2", borderBottom: "1px solid #fecaca", fontSize: "0.625rem", color: "#dc2626" }}>{modeToast}</div>}
         {pauseResolve && (
           <div style={{ padding: "6px 10px", background: "#fffbf0", borderBottom: "1px solid #fde68a", display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 10, color: "#92400e", flex: 1 }}>{pauseLabel || t("wb.pauseHint")}</span>
+            <span style={{ fontSize: "0.625rem", color: "#92400e", flex: 1 }}>{pauseLabel || t("wb.pauseHint")}</span>
             <button onClick={() => { const r = pauseResolve; setPauseResolve(null); setPauseLabel(""); r(); }}
-              style={{ padding: "2px 10px", border: "1px solid #d97706", borderRadius: 4, background: "#f59e0b", color: "#fff", fontSize: 10, cursor: "pointer" }}>{t("wb.continueBtn")}</button>
+              style={{ padding: "2px 10px", border: "1px solid #d97706", borderRadius: 4, background: "#f59e0b", color: "#fff", fontSize: "0.625rem", cursor: "pointer" }}>{t("wb.continueBtn")}</button>
           </div>
         )}
         {pendingConfirm && (
           <div style={{ padding: "8px 10px", background: "#fffbf0", borderBottom: "1px solid #fde68a", display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-            <span style={{ fontSize: 10, color: "#92400e", flex: "1 0 100%" }}>{t("wb.confirmTitle", pendingConfirm.toolName)}{pendingConfirm.cardName && ` — ${t("wb.confirmDetail", pendingConfirm.cardName)}`}</span>
+            <span style={{ fontSize: "0.625rem", color: "#92400e", flex: "1 0 100%" }}>{t("wb.confirmTitle", pendingConfirm.toolName)}{pendingConfirm.cardName && ` — ${t("wb.confirmDetail", pendingConfirm.cardName)}`}</span>
             <button onClick={onConfirmAllow} style={confirmBtn}>{t("wb.allow")}</button>
             <button onClick={onConfirmDeny} style={{ ...confirmBtn, background: "#fafbfc", color: "#ef4444", borderColor: "#fca5a5" }}>{t("wb.deny")}</button>
             <button onClick={onConfirmAllowAll} style={{ ...confirmBtn, background: "#fafbfc", borderColor: "#d1d5db" }}>{t("wb.allowAll")}</button>
@@ -714,16 +714,16 @@ export function Workbench({ card, interaction, allCards, registerZone, unregiste
         <div onClick={(e) => { if (e.target === e.currentTarget) setShowNewCard(false); }}
           style={{ position: "fixed", inset: 0, zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.06)" }}>
           <div style={{ width: 260, background: "#fff", border: "1px solid #d1d5db", padding: 16 }}>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "#1a1a2e", marginBottom: 12 }}>{t("wb.newCardTitle")}</div>
-            <div style={{ marginBottom: 8 }}><div style={{ fontSize: 10, color: "#6b7280", marginBottom: 2 }}>{t("wb.newCardLabel")}</div>
+            <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "#1a1a2e", marginBottom: 12 }}>{t("wb.newCardTitle")}</div>
+            <div style={{ marginBottom: 8 }}><div style={{ fontSize: "0.625rem", color: "#6b7280", marginBottom: 2 }}>{t("wb.newCardLabel")}</div>
               <input autoFocus value={newCardTitle} onChange={(e) => setNewCardTitle(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") doCreateCard(); if (e.key === "Escape") setShowNewCard(false); }}
                 placeholder={t("card.defaultLabel")}
-                style={{ width: "100%", padding: "4px 8px", border: "1px solid #e5e7eb", borderRadius: 4, fontSize: 11, outline: "none", boxSizing: "border-box" }} />
+                style={{ width: "100%", padding: "4px 8px", border: "1px solid #e5e7eb", borderRadius: 4, fontSize: "0.6875rem", outline: "none", boxSizing: "border-box" }} />
             </div>
-            <div style={{ marginBottom: 12 }}><div style={{ fontSize: 10, color: "#6b7280", marginBottom: 2 }}>{t("wb.newCardType")}</div>
+            <div style={{ marginBottom: 12 }}><div style={{ fontSize: "0.625rem", color: "#6b7280", marginBottom: 2 }}>{t("wb.newCardType")}</div>
               <select value={newCardType} onChange={(e) => setNewCardType(e.target.value)}
-                style={{ width: "100%", padding: "4px 8px", border: "1px solid #e5e7eb", borderRadius: 4, fontSize: 11, outline: "none" }}>
+                style={{ width: "100%", padding: "4px 8px", border: "1px solid #e5e7eb", borderRadius: 4, fontSize: "0.6875rem", outline: "none" }}>
                 <option value="md">Markdown</option><option value="txt">Text</option>
               </select>
             </div>
@@ -749,10 +749,10 @@ function ZoneShell({ zone, isOpen, onToggle, zoneProps, children }: {
   if (zone.id === "tray") badge = zoneProps.trayCards.length;
   return (
     <div style={{ borderTop: "1px solid #e5e7eb" }}>
-      <div onClick={onToggle} style={{ display: "flex", alignItems: "center", gap: 4, padding: "6px 10px", fontSize: 10, color: "#6b7280", cursor: "pointer", userSelect: "none" }}>
+      <div onClick={onToggle} style={{ display: "flex", alignItems: "center", gap: 4, padding: "6px 10px", fontSize: "0.625rem", color: "#6b7280", cursor: "pointer", userSelect: "none" }}>
         <span>{t(zone.titleKey as any)}</span>
-        {badge > 0 && <span style={{ background: "#e5e7eb", borderRadius: 8, padding: "0 6px", fontSize: 9 }}>{badge}</span>}
-        <span style={{ marginLeft: "auto", fontSize: 9 }}>{isOpen ? "v" : ">"}</span>
+        {badge > 0 && <span style={{ background: "#e5e7eb", borderRadius: 8, padding: "0 6px", fontSize: "0.5625rem" }}>{badge}</span>}
+        <span style={{ marginLeft: "auto", fontSize: "0.5625rem" }}>{isOpen ? "v" : ">"}</span>
       </div>
       {isOpen && children}
     </div>
@@ -768,7 +768,7 @@ const panelStyle = (card: CardEntry, interaction: InteractionConfig): React.CSSP
 });
 const inputStyle: React.CSSProperties = {
   width: "100%", border: "1px solid #e5e7eb", borderRadius: 4,
-  padding: 6, fontSize: 11, resize: "none", outline: "none",
+  padding: 6, fontSize: "0.6875rem", resize: "none", outline: "none",
   fontFamily: "inherit", boxSizing: "border-box",
 };
 const ZONE_ICONS = [
@@ -809,9 +809,9 @@ function LeftIcons({ zoneProps, openDrawer, setOpenDrawer, iconRefs, setDrawerTo
               setOpenDrawer(z.id);
             }}
             title={t(z.labelKey)}
-            style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", padding: "6px 2px", borderRadius: 4, cursor: "pointer", background: isOpen ? "#e5e7eb" : "transparent", fontSize: 14, color: badge > 0 ? "#1a1a2e" : "#9ca3af" }}>
+            style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", padding: "6px 2px", borderRadius: 4, cursor: "pointer", background: isOpen ? "#e5e7eb" : "transparent", fontSize: "0.875rem", color: badge > 0 ? "#1a1a2e" : "#9ca3af" }}>
             <span>{z.icon}</span>
-            {badge > 0 && <span style={{ fontSize: 8, marginTop: 1, fontWeight: 600 }}>{badge}</span>}
+            {badge > 0 && <span style={{ fontSize: "0.5rem", marginTop: 1, fontWeight: 600 }}>{badge}</span>}
           </div>
         );
       })}
@@ -855,9 +855,9 @@ function typeShort(type: ModeType): string {
 
 const btnSm: React.CSSProperties = {
   padding: "3px 8px", border: "1px solid #e5e7eb", borderRadius: 4,
-  background: "#fafbfc", fontSize: 10, cursor: "pointer", color: "#1a1a2e",
+  background: "#fafbfc", fontSize: "0.625rem", cursor: "pointer", color: "#1a1a2e",
 };
 const confirmBtn: React.CSSProperties = {
   padding: "2px 10px", border: "1px solid #d97706", borderRadius: 4,
-  background: "#f59e0b", color: "#fff", fontSize: 10, cursor: "pointer",
+  background: "#f59e0b", color: "#fff", fontSize: "0.625rem", cursor: "pointer",
 };

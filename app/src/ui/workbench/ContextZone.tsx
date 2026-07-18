@@ -51,7 +51,7 @@ export function ContextZone({ allCards, contextOrder, onContextOrderChange, regi
   }, []);
 
   return (
-    <div ref={elRef} style={{ padding: "6px 10px", fontSize: 10, color: "#6b7280", position: "relative", minHeight: 28 }}>
+    <div ref={elRef} style={{ padding: "6px 10px", fontSize: "0.625rem", color: "#6b7280", position: "relative", minHeight: 28 }}>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 4, alignItems: "center" }}>
         {contextOrder.map((item, i) => {
           const cat = item.type === "card" ? fileCategory(item.label) : { label: "MSG", color: "#6b7280" };
@@ -62,7 +62,7 @@ export function ContextZone({ allCards, contextOrder, onContextOrderChange, regi
               onContextMenu={(e) => onContextMenu(e, item)}
               style={{
                 display: "inline-flex", alignItems: "center", gap: 4,
-                fontSize: 9, background: "#f0f7ff", border: "1px solid #bfdbfe",
+                fontSize: "0.5625rem", background: "#f0f7ff", border: "1px solid #bfdbfe",
                 borderRadius: 3, padding: "2px 6px", cursor: item.type === "card" ? "pointer" : "context-menu",
                 maxWidth: 130, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
               }}
@@ -76,7 +76,7 @@ export function ContextZone({ allCards, contextOrder, onContextOrderChange, regi
           onClick={() => setShowPicker(true)}
           style={{
             width: 20, height: 20, borderRadius: 3, border: "1px dashed #d1d5db",
-            background: "transparent", cursor: "pointer", fontSize: 12, color: "#9ca3af",
+            background: "transparent", cursor: "pointer", fontSize: "0.75rem", color: "#9ca3af",
             display: "flex", alignItems: "center", justifyContent: "center",
             flexShrink: 0,
           }}
@@ -130,13 +130,13 @@ function CardPicker({ cards, selected, onConfirm, onClose }: {
       }}
     >
       <div style={{ width: 280, maxHeight: 360, background: "#fff", border: "1px solid #d1d5db", padding: 12, overflow: "auto" }}>
-        <div style={{ fontSize: 11, color: "#6b7280", marginBottom: 8 }}>{t("wb.contextOrder")}</div>
+        <div style={{ fontSize: "0.6875rem", color: "#6b7280", marginBottom: 8 }}>{t("wb.contextOrder")}</div>
         {cards.filter((c) => !c.isWorkbench).map((c) => {
           const cat = fileCategory(c.label);
           return (
             <label
               key={c.id}
-              style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 0", fontSize: 11, cursor: "pointer", color: picked.has(c.id) ? "#1a1a2e" : "#9ca3af" }}
+              style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 0", fontSize: "0.6875rem", cursor: "pointer", color: picked.has(c.id) ? "#1a1a2e" : "#9ca3af" }}
             >
               <input type="checkbox" checked={picked.has(c.id)} onChange={() => toggle(c.id)} style={{ width: 12, height: 12, margin: 0 }} />
               <span style={{ width: 6, height: 12, borderRadius: 1, background: cat.color, flexShrink: 0 }} />
@@ -145,7 +145,7 @@ function CardPicker({ cards, selected, onConfirm, onClose }: {
           );
         })}
         {cards.filter((c) => !c.isWorkbench).length === 0 && (
-          <div style={{ fontSize: 10, color: "#9ca3af", textAlign: "center", padding: 12 }}>—</div>
+          <div style={{ fontSize: "0.625rem", color: "#9ca3af", textAlign: "center", padding: 12 }}>—</div>
         )}
         <div style={{ display: "flex", gap: 6, marginTop: 12, justifyContent: "flex-end" }}>
           <button onClick={onClose} style={pickerBtn}>{t("ui.cancel")}</button>
@@ -160,5 +160,5 @@ function CardPicker({ cards, selected, onConfirm, onClose }: {
 
 const pickerBtn: React.CSSProperties = {
   padding: "3px 10px", border: "1px solid #e5e7eb", borderRadius: 4,
-  background: "#fafbfc", fontSize: 11, cursor: "pointer",
+  background: "#fafbfc", fontSize: "0.6875rem", cursor: "pointer",
 };

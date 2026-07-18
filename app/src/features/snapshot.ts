@@ -40,7 +40,7 @@ async function snapshotImage(
     ctx.drawImage(img, (size.w - dw) / 2, (size.h - dh) / 2, dw, dh);
     URL.revokeObjectURL(url);
 
-    return new Promise((resolve) => canvas.toBlob((b) => resolve(b), "image/png", 0.7));
+    return new Promise((resolve) => canvas.toBlob((b) => resolve(b), "image/png", 0.85));
   } catch {
     return null;
   }
@@ -62,7 +62,7 @@ async function snapshotText(
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, size.w, size.h);
     ctx.fillStyle = "#374151";
-    ctx.font = "10px monospace";
+    ctx.font = "14px monospace";
 
     const maxLines = Math.min(lines.length, Math.floor(size.h / 14));
     for (let i = 0; i < maxLines; i++) {
@@ -70,7 +70,7 @@ async function snapshotText(
       ctx.fillText(line, 4, 14 + i * 14);
     }
 
-    return new Promise((resolve) => canvas.toBlob((b) => resolve(b), "image/png", 0.6));
+    return new Promise((resolve) => canvas.toBlob((b) => resolve(b), "image/png", 0.85));
   } catch {
     return null;
   }
@@ -117,13 +117,13 @@ async function snapshotCSV(
         ctx.fillRect(0, y, size.w, rowH);
       }
       ctx.fillStyle = ri === 0 ? "#1a1a2e" : "#374151";
-      ctx.font = ri === 0 ? "bold 8px monospace" : "8px monospace";
+      ctx.font = ri === 0 ? "bold 11px monospace" : "11px monospace";
       for (let ci = 0; ci < Math.min(rows[ri].length, maxCols); ci++) {
         ctx.fillText(rows[ri][ci].slice(0, 20), 4 + ci * colW, y + 10);
       }
     }
 
-    return new Promise((resolve) => canvas.toBlob((b) => resolve(b), "image/png", 0.6));
+    return new Promise((resolve) => canvas.toBlob((b) => resolve(b), "image/png", 0.85));
   } catch {
     return null;
   }

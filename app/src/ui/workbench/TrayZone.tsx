@@ -38,7 +38,7 @@ export function TrayZone({ allCards, trayCards, onTrayCardsChange }: ZoneProps) 
   };
 
   return (
-    <div style={{ padding: "6px 10px", fontSize: 10, color: "#6b7280" }}>
+    <div style={{ padding: "6px 10px", fontSize: "0.625rem", color: "#6b7280" }}>
       {trayCardEntries.length > 0 ? (
         <div style={{ display: "flex", gap: 6, overflowX: "auto", padding: 4 }}>
           {trayCardEntries.map((card) => {
@@ -50,18 +50,18 @@ export function TrayZone({ allCards, trayCards, onTrayCardsChange }: ZoneProps) 
                 style={{
                   width: 80, height: 112, border: "1px solid #e5e7eb",
                   borderRadius: 4, background: "#fff", flexShrink: 0,
-                  fontSize: 8, color: "#6b7280", padding: 3,
+                  fontSize: "0.5rem", color: "#6b7280", padding: 3,
                   overflow: "hidden", cursor: "grab",
                   touchAction: "none", userSelect: "none",
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 2, marginBottom: 2 }}>
                   <span style={{ width: 4, height: 8, borderRadius: 1, background: cat.color, flexShrink: 0 }} />
-                  <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontSize: 7 }}>
+                  <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontSize: "0.4375rem" }}>
                     {card.label.slice(0, 12)}
                   </span>
                 </div>
-                <div style={{ fontSize: 7, color: "#9ca3af", lineHeight: 1.3, overflow: "hidden" }}>
+                <div style={{ fontSize: "0.4375rem", color: "#9ca3af", lineHeight: 1.3, overflow: "hidden" }}>
                   {card.tags.length > 0
                     ? card.tags.slice(0, 2).join(", ")
                     : card.sphereId ? "..." : ""}

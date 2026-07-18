@@ -105,7 +105,7 @@ export function ExportPanel({ cardIds, allCards, onClose }: ExportPanelProps) {
   return (
     <div onClick={(e) => { if (e.target === e.currentTarget) onClose(); }} style={overlay}>
       <div onClick={(e) => e.stopPropagation()} style={panel}>
-        <div style={{ fontSize: 13, fontWeight: 600, color: "#1a1a2e", marginBottom: 12 }}>{t("export.panelTitle")}</div>
+        <div style={{ fontSize: "0.8125rem", fontWeight: 600, color: "#1a1a2e", marginBottom: 12 }}>{t("export.panelTitle")}</div>
 
         <InputRow label={t("card.cardName")} value={label} onChange={setLabel} />
         <InputRow label={t("export.authorLabel")} value={author} onChange={setAuthor} />
@@ -113,36 +113,36 @@ export function ExportPanel({ cardIds, allCards, onClose }: ExportPanelProps) {
         <InputRow label={t("export.tagsLabel")} value={tags} onChange={setTags} />
 
         <div style={{ marginTop: 12, borderTop: "1px solid #e5e7eb", paddingTop: 8 }}>
-          <div style={{ fontSize: 10, color: "#6b7280", marginBottom: 4 }}>{t("export.fileList")}</div>
+          <div style={{ fontSize: "0.625rem", color: "#6b7280", marginBottom: 4 }}>{t("export.fileList")}</div>
           {files.map((f) => (
             <label key={`${f.cardLabel}/${f.fileName}`} style={fileRow}>
               <input type="checkbox" checked={include.has(f.fileName)} onChange={() => toggleFile(f.fileName)} style={{ width: 12, height: 12, margin: 0 }} />
               <span style={{ flex: 1 }}>{f.fileName}</span>
-              <span style={{ fontSize: 9, color: "#9ca3af" }}>{Math.round(f.size / 1024)}KB</span>
-              <span style={{ fontSize: 9, color: "#d1d5db" }}>({f.cardLabel})</span>
+              <span style={{ fontSize: "0.5625rem", color: "#9ca3af" }}>{Math.round(f.size / 1024)}KB</span>
+              <span style={{ fontSize: "0.5625rem", color: "#d1d5db" }}>({f.cardLabel})</span>
             </label>
           ))}
           <button onClick={genReadme} style={smBtn}>{t("export.generateReadme")}</button>
         </div>
 
         <div style={{ marginTop: 8 }}>
-          <div style={{ fontSize: 10, color: "#6b7280", marginBottom: 2 }}>{t("export.editNote")}</div>
+          <div style={{ fontSize: "0.625rem", color: "#6b7280", marginBottom: 2 }}>{t("export.editNote")}</div>
           <textarea value={editNote} onChange={(e) => setEditNote(e.target.value)} placeholder={t("export.editNotePlaceholder")} rows={2}
             style={textArea} />
         </div>
 
         {scan.length > 0 && (
           <div style={{ marginTop: 8 }}>
-            <div style={{ fontSize: 10, color: "#f59e0b" }}>{t("export.privacyIssue", String(scan.length))}</div>
+            <div style={{ fontSize: "0.625rem", color: "#f59e0b" }}>{t("export.privacyIssue", String(scan.length))}</div>
             {scan.map((s, i) => (
-              <div key={i} style={{ fontSize: 9, color: "#92400e" }}>{s.file}:{s.line} — {s.reason}</div>
+              <div key={i} style={{ fontSize: "0.5625rem", color: "#92400e" }}>{s.file}:{s.line} — {s.reason}</div>
             ))}
           </div>
         )}
         <button onClick={doScan} style={{ ...smBtn, marginTop: 4 }}>{t("export.privacyScan")}</button>
 
         <div style={{ marginTop: 12, borderTop: "1px solid #e5e7eb", paddingTop: 8 }}>
-          <div style={{ fontSize: 10, color: "#6b7280", marginBottom: 4 }}>{t("export.security")}</div>
+          <div style={{ fontSize: "0.625rem", color: "#6b7280", marginBottom: 4 }}>{t("export.security")}</div>
           <label style={checkRow}>
             <input type="checkbox" checked={useSig} onChange={() => setUseSig(!useSig)} style={{ width: 12, height: 12, margin: 0 }} />
             {t("export.useSignature")} {fp ? `(${fp.slice(0, 12)}...)` : ""}
@@ -155,7 +155,7 @@ export function ExportPanel({ cardIds, allCards, onClose }: ExportPanelProps) {
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password"
               style={{ ...inputS, width: "100%", marginTop: 4 }} />
           )}
-          {useEnc && password && <div style={{ fontSize: 9, color: pwStrength === "strong" ? "#22c55e" : pwStrength === "medium" ? "#f59e0b" : "#ef4444" }}>{t("export.pwStrength", pwStrength)}</div>}
+          {useEnc && password && <div style={{ fontSize: "0.5625rem", color: pwStrength === "strong" ? "#22c55e" : pwStrength === "medium" ? "#f59e0b" : "#ef4444" }}>{t("export.pwStrength", pwStrength)}</div>}
         </div>
 
         <div style={{ display: "flex", gap: 8, justifyContent: "flex-end", marginTop: 16, borderTop: "1px solid #e5e7eb", paddingTop: 12 }}>
@@ -170,7 +170,7 @@ export function ExportPanel({ cardIds, allCards, onClose }: ExportPanelProps) {
 function InputRow({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
-      <span style={{ fontSize: 10, color: "#6b7280", minWidth: 60 }}>{label}</span>
+      <span style={{ fontSize: "0.625rem", color: "#6b7280", minWidth: 60 }}>{label}</span>
       <input value={value} onChange={(e) => onChange(e.target.value)} style={inputS} />
     </div>
   );
@@ -178,10 +178,10 @@ function InputRow({ label, value, onChange }: { label: string; value: string; on
 
 const overlay: React.CSSProperties = { position: "fixed", inset: 0, zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.06)" };
 const panel: React.CSSProperties = { width: 440, maxHeight: "85vh", overflow: "auto", background: "#fff", border: "1px solid #d1d5db", padding: 20 };
-const inputS: React.CSSProperties = { flex: 1, padding: "3px 6px", border: "1px solid #e5e7eb", borderRadius: 4, fontSize: 11, outline: "none" };
-const textArea: React.CSSProperties = { width: "100%", padding: "4px 8px", border: "1px solid #e5e7eb", borderRadius: 4, fontSize: 10, outline: "none", resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" };
-const fileRow: React.CSSProperties = { display: "flex", alignItems: "center", gap: 6, padding: "2px 0", fontSize: 10, cursor: "pointer", color: "#1a1a2e" };
-const checkRow: React.CSSProperties = { display: "flex", alignItems: "center", gap: 4, fontSize: 10, color: "#1a1a2e", marginBottom: 4, cursor: "pointer" };
-const smBtn: React.CSSProperties = { padding: "2px 8px", border: "1px solid #e5e7eb", borderRadius: 3, background: "#fafbfc", fontSize: 10, cursor: "pointer", color: "#6b7280", marginTop: 4 };
-const cancelBtn: React.CSSProperties = { padding: "4px 12px", border: "1px solid #e5e7eb", borderRadius: 4, background: "#fafbfc", fontSize: 11, cursor: "pointer" };
-const exportBtn: React.CSSProperties = { padding: "4px 14px", border: "1px solid #1a1a2e", borderRadius: 4, background: "#1a1a2e", color: "#fff", fontSize: 11, cursor: "pointer" };
+const inputS: React.CSSProperties = { flex: 1, padding: "3px 6px", border: "1px solid #e5e7eb", borderRadius: 4, fontSize: "0.6875rem", outline: "none" };
+const textArea: React.CSSProperties = { width: "100%", padding: "4px 8px", border: "1px solid #e5e7eb", borderRadius: 4, fontSize: "0.625rem", outline: "none", resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" };
+const fileRow: React.CSSProperties = { display: "flex", alignItems: "center", gap: 6, padding: "2px 0", fontSize: "0.625rem", cursor: "pointer", color: "#1a1a2e" };
+const checkRow: React.CSSProperties = { display: "flex", alignItems: "center", gap: 4, fontSize: "0.625rem", color: "#1a1a2e", marginBottom: 4, cursor: "pointer" };
+const smBtn: React.CSSProperties = { padding: "2px 8px", border: "1px solid #e5e7eb", borderRadius: 3, background: "#fafbfc", fontSize: "0.625rem", cursor: "pointer", color: "#6b7280", marginTop: 4 };
+const cancelBtn: React.CSSProperties = { padding: "4px 12px", border: "1px solid #e5e7eb", borderRadius: 4, background: "#fafbfc", fontSize: "0.6875rem", cursor: "pointer" };
+const exportBtn: React.CSSProperties = { padding: "4px 14px", border: "1px solid #1a1a2e", borderRadius: 4, background: "#1a1a2e", color: "#fff", fontSize: "0.6875rem", cursor: "pointer" };

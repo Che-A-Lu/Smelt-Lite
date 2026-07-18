@@ -115,6 +115,8 @@ export interface InteractionConfig {
     gridSpacing: number;
     fontFamily: string;
     animationEnabled: boolean;
+    cardScale: number;
+    uiScale: number;
   };
 }
 
@@ -122,7 +124,7 @@ export function defaultInteraction(): InteractionConfig {
   return {
     card: {
       dragDelayFrames: 3,
-      dragFollowRatio: 0.4,
+      dragFollowRatio: 0.65,
       dragScaleOnPickup: 1.05,
       dragShadow: "0 4px 12px rgba(0,0,0,0.15)",
       throwDecay: 0.92,
@@ -143,11 +145,13 @@ export function defaultInteraction(): InteractionConfig {
       cardInPackScale: 0.7,
     },
     global: {
-      backgroundColor: "#fafbfc",
-      gridColor: "#e5e7eb",
+      backgroundColor: "#f5f5f5",
+      gridColor: "#d1d5db",
       gridSpacing: 40,
       fontFamily: "system-ui, sans-serif",
       animationEnabled: true,
+      cardScale: 1.0,
+      uiScale: 1.0,
     },
   };
 }

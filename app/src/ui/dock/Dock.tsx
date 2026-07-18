@@ -112,7 +112,7 @@ export function Dock({ dock, cards, registerZone, unregisterZone, onDropOut, onR
           border: "1px dashed #d1d5db", borderRadius: 4,
           display: "flex", alignItems: "center", justifyContent: "center",
         }}>
-          <span style={{ fontSize: 10, color: "#9ca3af", textAlign: "center", padding: 8 }}>
+          <span style={{ fontSize: "0.625rem", color: "#9ca3af", textAlign: "center", padding: 8 }}>
             {t("dock.empty")}
           </span>
         </div>
@@ -120,7 +120,7 @@ export function Dock({ dock, cards, registerZone, unregisterZone, onDropOut, onR
 
       {hasActive && (
         <div style={{ textAlign: "center", width: "100%" }}>
-          <div style={{ fontSize: 10, color: "#22c55e", marginBottom: 6 }}>{t("dock.active")}</div>
+          <div style={{ fontSize: "0.625rem", color: "#22c55e", marginBottom: 6 }}>{t("dock.active")}</div>
           {dock.activeCardIds.map((id) => {
             const card = cards[id];
             return (
@@ -131,14 +131,14 @@ export function Dock({ dock, cards, registerZone, unregisterZone, onDropOut, onR
                 onPointerUp={onCardPointerUp}
                 onPointerCancel={onCardPointerUp}
                 style={{
-                  fontSize: 9, color: "#6b7280",
+                  fontSize: "0.5625rem", color: "#6b7280",
                   padding: "4px 12px", margin: "3px 0",
                   border: "1px solid #d1d5db", borderRadius: 4,
                   background: "#fff", cursor: "grab",
                   touchAction: "none", userSelect: "none",
                 }}
               >
-                <span style={{ fontSize: 7, color: "#9ca3af", display: "block" }}>
+                <span style={{ fontSize: "0.4375rem", color: "#9ca3af", display: "block" }}>
                   {card ? (card.label.length > 12 ? card.label.slice(0, 12) + "..." : card.label) : id.slice(0, 8)}
                 </span>
               </div>

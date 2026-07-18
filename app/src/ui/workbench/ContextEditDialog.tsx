@@ -49,38 +49,38 @@ export function ContextEditDialog({ ref: itemRef, cardLabel, sphereId, onClose, 
       }}
     >
       <div style={{ width: 400, maxHeight: "80vh", background: "#fff", border: "1px solid #d1d5db", padding: 16, overflow: "auto" }}>
-        <div style={{ fontSize: 12, fontWeight: 600, color: "#1a1a2e", marginBottom: 12 }}>
+        <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "#1a1a2e", marginBottom: 12 }}>
           {t("wb.ctxEditTitle")}
         </div>
-        <div style={{ fontSize: 10, color: "#6b7280", marginBottom: 4 }}>Card: {cardLabel}</div>
+        <div style={{ fontSize: "0.625rem", color: "#6b7280", marginBottom: 4 }}>Card: {cardLabel}</div>
 
         <div style={{ marginBottom: 8 }}>
-          <div style={{ fontSize: 10, color: "#6b7280", marginBottom: 2 }}>{t("wb.ctxEditNote")}</div>
+          <div style={{ fontSize: "0.625rem", color: "#6b7280", marginBottom: 2 }}>{t("wb.ctxEditNote")}</div>
           <textarea
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder={t("wb.ctxEditNotePlaceholder")}
             rows={2}
-            style={{ width: "100%", padding: "4px 8px", border: "1px solid #e5e7eb", borderRadius: 4, fontSize: 10, outline: "none", resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }}
+            style={{ width: "100%", padding: "4px 8px", border: "1px solid #e5e7eb", borderRadius: 4, fontSize: "0.625rem", outline: "none", resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }}
           />
         </div>
 
         <div style={{ marginBottom: 8 }}>
-          <div style={{ fontSize: 10, color: "#6b7280", marginBottom: 2 }}>{t("wb.ctxEditContent")}</div>
+          <div style={{ fontSize: "0.625rem", color: "#6b7280", marginBottom: 2 }}>{t("wb.ctxEditContent")}</div>
           {loading
-            ? <div style={{ fontSize: 10, color: "#9ca3af" }}>{t("ui.loading")}</div>
+            ? <div style={{ fontSize: "0.625rem", color: "#9ca3af" }}>{t("ui.loading")}</div>
             : (
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 rows={10}
-                style={{ width: "100%", padding: "4px 8px", border: "1px solid #e5e7eb", borderRadius: 4, fontSize: 9, fontFamily: "monospace", outline: "none", resize: "vertical", boxSizing: "border-box" }}
+                style={{ width: "100%", padding: "4px 8px", border: "1px solid #e5e7eb", borderRadius: 4, fontSize: "0.5625rem", fontFamily: "monospace", outline: "none", resize: "vertical", boxSizing: "border-box" }}
               />
             )
           }
         </div>
 
-        <div style={{ marginBottom: 12, fontSize: 10, color: "#6b7280" }}>
+        <div style={{ marginBottom: 12, fontSize: "0.625rem", color: "#6b7280" }}>
           <label style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 4, cursor: "pointer" }}>
             <input type="radio" name="ctxmode" checked={mode === "full"} onChange={() => setMode("full")} style={{ width: 12, height: 12, margin: 0 }} />
             {t("wb.ctxEditFull")}
@@ -92,9 +92,9 @@ export function ContextEditDialog({ ref: itemRef, cardLabel, sphereId, onClose, 
         </div>
 
         <div style={{ display: "flex", gap: 6, justifyContent: "flex-end" }}>
-          <button onClick={resetContent} style={{ padding: "3px 10px", border: "1px solid #e5e7eb", borderRadius: 4, background: "#fafbfc", fontSize: 11, cursor: "pointer" }}>{t("wb.ctxEditReset")}</button>
-          <button onClick={onClose} style={{ padding: "3px 10px", border: "1px solid #e5e7eb", borderRadius: 4, background: "#fafbfc", fontSize: 11, cursor: "pointer" }}>{t("ui.cancel")}</button>
-          <button onClick={handleSave} style={{ padding: "3px 10px", border: "1px solid #1a1a2e", borderRadius: 4, background: "#1a1a2e", color: "#fff", fontSize: 11, cursor: "pointer" }}>{t("wb.ctxEditSave")}</button>
+          <button onClick={resetContent} style={{ padding: "3px 10px", border: "1px solid #e5e7eb", borderRadius: 4, background: "#fafbfc", fontSize: "0.6875rem", cursor: "pointer" }}>{t("wb.ctxEditReset")}</button>
+          <button onClick={onClose} style={{ padding: "3px 10px", border: "1px solid #e5e7eb", borderRadius: 4, background: "#fafbfc", fontSize: "0.6875rem", cursor: "pointer" }}>{t("ui.cancel")}</button>
+          <button onClick={handleSave} style={{ padding: "3px 10px", border: "1px solid #1a1a2e", borderRadius: 4, background: "#1a1a2e", color: "#fff", fontSize: "0.6875rem", cursor: "pointer" }}>{t("wb.ctxEditSave")}</button>
         </div>
       </div>
     </div>

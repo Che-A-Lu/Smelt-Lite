@@ -36,11 +36,11 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
       position: "fixed", top: 60, right: 16, width: 320, maxHeight: "70vh", overflow: "auto",
       background: "#ffffff", border: "1px solid #d1d5db", padding: 16, zIndex: 200,
     }}>
-      <h3 style={{ fontSize: 14, margin: "0 0 12px" }}>{t("settings.title")}</h3>
+      <h3 style={{ fontSize: "0.875rem", margin: "0 0 12px" }}>{t("settings.title")}</h3>
 
       {providers.filter((p) => p.id !== "custom").map((p) => (
         <div key={p.id} style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 12, color: "#6b7280", marginBottom: 4 }}>{p.label}</div>
+          <div style={{ fontSize: "0.75rem", color: "#6b7280", marginBottom: 4 }}>{p.label}</div>
           <input
             type="password"
             placeholder="API Key"
@@ -55,7 +55,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
       ))}
 
       <div style={{ marginTop: 12 }}>
-        <div style={{ fontSize: 12, color: "#6b7280", marginBottom: 4 }}>{t("settings.model")}</div>
+        <div style={{ fontSize: "0.75rem", color: "#6b7280", marginBottom: 4 }}>{t("settings.model")}</div>
         <select
           value={activeModel}
           onChange={(e) => { setModel(e.target.value); setActiveModel(e.target.value); }}
@@ -67,10 +67,29 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
         </select>
       </div>
 
+      {/* UI Scale + Card Scale */}
+      <div style={{ marginTop: 16, borderTop: "1px solid #e5e7eb", paddingTop: 12 }}>
+        <div style={{ fontSize: "0.75rem", color: "#6b7280", marginBottom: 8 }}>Display</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+          <span style={{ fontSize: "0.625rem", color: "#6b7280", minWidth: 50 }}>UI Size</span>
+          <input type="range" min="0.8" max="2.0" step="0.1"
+            defaultValue={localStorage.getItem("card-space-uiScale") ?? "1.0"}
+            onChange={(e) => { localStorage.setItem("card-space-uiScale", e.target.value); }}
+            style={{ flex: 1 }} />
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ fontSize: "0.625rem", color: "#6b7280", minWidth: 50 }}>Card Size</span>
+          <input type="range" min="0.6" max="1.4" step="0.05"
+            defaultValue={localStorage.getItem("card-space-cardScale") ?? "1.0"}
+            onChange={(e) => { localStorage.setItem("card-space-cardScale", e.target.value); }}
+            style={{ flex: 1 }} />
+        </div>
+      </div>
+
       {/* Identity section */}
       <div style={{ marginTop: 16, borderTop: "1px solid #e5e7eb", paddingTop: 12 }}>
-        <div style={{ fontSize: 12, color: "#6b7280", marginBottom: 8 }}>{t("export.identity")}</div>
-        {fp && <div style={{ fontSize: 10, color: "#6b7280", marginBottom: 6 }}>{t("export.fingerprint", fp.slice(0, 16))}</div>}
+        <div style={{ fontSize: "0.75rem", color: "#6b7280", marginBottom: 8 }}>{t("export.identity")}</div>
+        {fp && <div style={{ fontSize: "0.625rem", color: "#6b7280", marginBottom: 6 }}>{t("export.fingerprint", fp.slice(0, 16))}</div>}
         <div style={{ display: "flex", gap: 6 }}>
           <button onClick={() => exportIdentityKey()} style={btnStyle}>{t("export.exportKey")}</button>
           <input ref={fileRef} type="file" accept=".json" onChange={handleImportKey} style={{ display: "none" }} />
@@ -87,10 +106,10 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
 
 const inputStyle: React.CSSProperties = {
   width: "100%", padding: "4px 8px", border: "1px solid #e5e7eb",
-  borderRadius: 4, fontSize: 12, outline: "none",
+  borderRadius: 4, fontSize: "0.75rem", outline: "none",
 };
 
 const btnStyle: React.CSSProperties = {
   padding: "4px 12px", border: "1px solid #e5e7eb",
-  borderRadius: 4, background: "#fafbfc", fontSize: 12, cursor: "pointer",
+  borderRadius: 4, background: "#fafbfc", fontSize: "0.75rem", cursor: "pointer",
 };
