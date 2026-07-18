@@ -759,7 +759,7 @@ function ZoneShell({ zone, isOpen, onToggle, zoneProps, children }: {
   );
 }
 
-const CARD_W = 150;
+const CARD_W = 750;
 const panelStyle = (card: CardEntry, interaction: InteractionConfig): React.CSSProperties => ({
   position: "absolute", left: card.position.x + CARD_W + 10, top: card.position.y,
   width: 460, maxHeight: "70vh",

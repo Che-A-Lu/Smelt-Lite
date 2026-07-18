@@ -2,10 +2,10 @@
 // 卡片尺寸常量
 // ============================================================
 
-export const CARD_W = 150;
-export const CARD_H = 210;
-export const DOCK_W = 180;
-export const DOCK_H = 250;
+export const CARD_W = 750;
+export const CARD_H = 1050;
+export const DOCK_W = 900;
+export const DOCK_H = 1250;
 
 // ============================================================
 // 卡片
@@ -136,7 +136,7 @@ export function defaultInteraction(): InteractionConfig {
     workbench: {
       openSpringStiffness: 200,
       openSpringDamping: 24,
-      panelWidth: 360,
+      panelWidth: 1380,
       showThinkingTrace: true,
     },
     pack: {
@@ -145,13 +145,13 @@ export function defaultInteraction(): InteractionConfig {
       cardInPackScale: 0.7,
     },
     global: {
-      backgroundColor: "#f5f5f5",
-      gridColor: "#d1d5db",
+      backgroundColor: "#c0c0c0",
+      gridColor: "#a0a0a0",
       gridSpacing: 40,
       fontFamily: "system-ui, sans-serif",
       animationEnabled: true,
       cardScale: 1.0,
-      uiScale: 1.0,
+      uiScale: 3.0,
     },
   };
 }

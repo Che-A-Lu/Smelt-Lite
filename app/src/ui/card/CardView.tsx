@@ -46,6 +46,7 @@ export function CardView({
   const elRef = useRef<HTMLDivElement>(null);
   const ds = useRef({
     active: false, frame: 0,
+    startX: 0, startY: 0,
     px: 0, py: 0, prevPx: 0, prevPy: 0, prevPrevPx: 0, prevPrevPy: 0,
     cx: 0, cy: 0,
   });
@@ -149,16 +150,9 @@ export function CardView({
   const isOrphaned = card.status === "orphaned";
   const category = fileCategory(card.label);
 
-  // 拖拽（不变）
+  // 拖拽跟随循环（由 onPointerMove 检测到 3px 后首次启动）
   const dragLoop = useCallback(() => {
     const d = ds.current; if (!d.active) return;
-    if (d.frame < interaction.card.dragDelayFrames) { d.frame++; raf.current = requestAnimationFrame(dragLoop); return; }
-    if (d.frame === interaction.card.dragDelayFrames) {
-      isDragging.current = true;
-      document.body.style.cursor = "grabbing";
-      if (elRef.current) { elRef.current.style.zIndex = "1000"; elRef.current.style.transition = "none"; }
-      onDragStart?.(card.id);
-    }
     const ratio = interaction.card.dragFollowRatio;
     d.cx += (d.px - d.cx) * ratio; d.cy += (d.py - d.cy) * ratio;
     if (elRef.current) elRef.current.style.transform = `translate(${d.cx}px, ${d.cy}px)`;
@@ -199,29 +193,55 @@ export function CardView({
   }, [interaction, card.id, onDragEnd, throwLoop]);
 
   const onPointerDown = useCallback((e: React.PointerEvent) => {
-    if (editing || deleting) return; onClick?.(card.id, e as unknown as React.MouseEvent);
+    if (editing || deleting) return;
+    onClick?.(card.id, e as unknown as React.MouseEvent);
     cancelAnimationFrame(raf.current);
-    const d = ds.current; d.active = true; d.frame = 0;
-    d.px = e.clientX; d.py = e.clientY; d.prevPx = e.clientX; d.prevPy = e.clientY;
+    const d = ds.current;
+    d.active = true; d.frame = 0;
+    d.startX = e.clientX; d.startY = e.clientY;
+    d.px = e.clientX; d.py = e.clientY;
+    d.prevPx = e.clientX; d.prevPy = e.clientY;
     d.prevPrevPx = e.clientX; d.prevPrevPy = e.clientY;
     d.cx = card.position.x; d.cy = card.position.y;
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    raf.current = requestAnimationFrame(dragLoop);
-    const el = elRef.current;
-    if (el) {
-      el.style.transition = "none";
-      requestAnimationFrame(() => { if (!ds.current.active) return; if (el) el.style.transform = `translate(${d.cx}px, ${d.cy}px) scale(1.05)`; requestAnimationFrame(() => { if (!ds.current.active) return; if (el) el.style.boxShadow = interaction.card.dragShadow; }); });
-    }
-  }, [editing, deleting, interaction, dragLoop, card, onClick]);
+    // 不启动 dragLoop——等 onPointerMove 判断是否真拖拽
+  }, [editing, deleting, card, onClick]);
 
   const onPointerMove = useCallback((e: React.PointerEvent) => {
     if (!ds.current.active) return;
-    ds.current.prevPrevPx = ds.current.prevPx; ds.current.prevPrevPy = ds.current.prevPy;
-    ds.current.prevPx = ds.current.px; ds.current.prevPy = ds.current.py;
-    ds.current.px = e.clientX; ds.current.py = e.clientY;
-  }, []);
+    const d = ds.current;
 
-  const onPointerUp = useCallback(() => { if (ds.current.active) finishDrag(); }, [finishDrag]);
+    const dx = e.clientX - d.startX;
+    const dy = e.clientY - d.startY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    // 移动超过 3px 才算拖拽
+    if (!isDragging.current && dist > 3) {
+      isDragging.current = true;
+      const el = elRef.current;
+      if (el) {
+        el.style.transition = "none";
+        el.style.zIndex = "1000";
+        el.style.transform = `translate(${d.cx}px, ${d.cy}px) scale(1.05)`;
+        el.style.boxShadow = interaction.card.dragShadow;
+      }
+      document.body.style.cursor = "grabbing";
+      raf.current = requestAnimationFrame(dragLoop);
+      onDragStart?.(card.id);
+    }
+
+    if (!isDragging.current) return;
+
+    d.prevPrevPx = d.prevPx; d.prevPrevPy = d.prevPy;
+    d.prevPx = d.px; d.prevPy = d.py;
+    d.px = e.clientX; d.py = e.clientY;
+  }, [interaction, card, dragLoop, onDragStart]);
+
+  const onPointerUp = useCallback(() => {
+    if (!ds.current.active) return;
+    if (!isDragging.current) { ds.current.active = false; return; }
+    finishDrag();
+  }, [finishDrag]);
 
   const onDblClick = useCallback(() => {
     if (card.isWorkbench) { onDoubleClick?.(card.id); } else { setEditing(true); setEditValue(card.label); }

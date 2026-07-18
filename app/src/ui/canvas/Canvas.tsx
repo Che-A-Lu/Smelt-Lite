@@ -570,9 +570,9 @@ export function Canvas({ index, interaction = defaultInteraction(), onCreateWork
 
         {/* 欢迎状态 */}
         {Object.values(index.cards).length === 0 && (
-          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", pointerEvents: "none", color: "#d1d5db", fontFamily: "system-ui, sans-serif" }}>
-            <div style={{ fontSize: "3rem", fontWeight: 300, letterSpacing: 8, marginBottom: 24 }}>Smelt</div>
-            <div style={{ fontSize: "0.8125rem", lineHeight: 2, textAlign: "center" }}>
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", pointerEvents: "none", color: "#a0a0a0", fontFamily: "system-ui, sans-serif" }}>
+            <div style={{ fontSize: "9rem", fontWeight: 700, letterSpacing: 8, marginBottom: 24 }}>Smelt</div>
+            <div style={{ fontSize: "2.5rem", fontWeight: 600, lineHeight: 2, textAlign: "center", color: "#808080" }}>
               {t("canvas.welcomeHint1")}<br />{t("canvas.welcomeHint2")}<br />{t("canvas.welcomeHint3")}
             </div>
           </div>
