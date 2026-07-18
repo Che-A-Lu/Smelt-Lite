@@ -48,6 +48,7 @@ export function CardView({
   const ds = useRef({
     active: false, frame: 0,
     startX: 0, startY: 0,
+    startCardX: 0, startCardY: 0,
     px: 0, py: 0, prevPx: 0, prevPy: 0, prevPrevPx: 0, prevPrevPy: 0,
     cx: 0, cy: 0,
   });
@@ -152,12 +153,14 @@ export function CardView({
   const category = fileCategory(card.label);
   const cardRem = (CARD_W * interaction.global.cardScale) / 150;
 
-  // 拖拽跟随循环（1:1 跟手）
+  // 拖拽跟随循环（1:1 跟手，相对偏移避免画布坐标混乱）
   const dragLoop = useCallback(() => {
     const d = ds.current;
     if (!d.active || !isDragging.current) return;
-    d.cx = d.px;
-    d.cy = d.py - 6;
+    const dx = d.px - d.startX;
+    const dy = d.py - d.startY;
+    d.cx = d.startCardX + dx;
+    d.cy = d.startCardY + dy - 6;
     if (elRef.current) elRef.current.style.transform = `translate(${d.cx}px, ${d.cy}px)`;
     onDragMove?.(card.id, d.cx, d.cy, d.px, d.py);
     raf.current = requestAnimationFrame(dragLoop);
@@ -211,6 +214,7 @@ export function CardView({
     d.prevPx = e.clientX; d.prevPy = e.clientY;
     d.prevPrevPx = e.clientX; d.prevPrevPy = e.clientY;
     d.cx = card.position.x; d.cy = card.position.y;
+    d.startCardX = card.position.x; d.startCardY = card.position.y;
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
     // 按下上浮
     const el = elRef.current;
