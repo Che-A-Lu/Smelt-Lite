@@ -1,116 +1,77 @@
-# 炼知 / Smelt
+# Smelt
 
-## 一句话
+> A .card format and reference implementation for human-AI collaboration output. Not a platform — a language.
 
-**让每个人和 AI 的协作产物成为可拥有的、可流转的、可继承的数字资产。**
+## What problem does this solve?
 
----
+You spent an afternoon working with AI: prompts, tool calls, thinking traces, generated files. What do you have to show for it? A chat log in a conversation window. Some scattered files. The *process* — every discarded direction, every breakthrough, every design decision — is gone.
 
-## 问题
+Code has GitHub. Writing has blogs. Designs have Figma. But human-AI collaboration has no standard container, no way to value, circulate, or inherit what was created.
 
-今天的 AI 工作台们解决了一个问题：让 AI 能动手。但它们没解决另一个问题——**你和 AI 一起创造了什么？这些东西去哪了？**
+Smelt answers this question: **what should human-AI output look like?**
 
-用 ChatGPT 聊了一下午，产出散落在聊天记录里。用 Claude Code 写了一套分析脚本，脚本是文件，但"怎么想的""为什么这么写""这中间推导了三次"——这些过程永远丢了。
+## .card: a new kind of file
 
-代码有 GitHub，文章有博客，设计稿有 Figma。但"人+AI 的协作过程"——那些 prompt、思维链、来回推翻、中间产物——没有属于自己的容器。
+A `.card` file is a ZIP archive containing:
 
-**每个人都在跟 AI 工作，但工作的成果不能积累、不能被标价、不能被流转。**
+- `manifest.json` — metadata, file hashes, author signature
+- `artifacts/` — the actual files (data, reports, scripts)
+- `process.jsonl` — every prompt, tool call, and AI response
+- `edits.json` — modification history (who changed what and why)
+- `signature.json` — cryptographic provenance chain (ECDSA P-256)
 
----
+Rename it to `.zip` and you can see everything inside. The format is open — any language can read and write it. No platform lock-in.
 
-## 答案
+## Smelt: reference implementation
 
-Smelt 是一个开放格式 + 参考实现。
+A thin browser-based space that interprets `.card` files. It doesn't build features — it renders cards and passes events.
 
-**格式叫 .card。** 一张 ZIP 包，里面有原始文件、完整的协作过程（每句 prompt、每次工具调用、AI 的思考链）、编辑记录、来源签名。拖进任何兼容空间都能继续工作。不是平台——是语言。就像 .html 不属于任何浏览器，.card 不属于任何公司。
+### Quick start
 
-**空间是 .card 的解释器。** 一个极薄的浏览器应用。拖文件进来变成卡片，双击卡片打开工作台，跟 AI 对话。所有东西都是卡片——数据表是卡片、AI 产出是卡片、工作台脚本是卡片、右键菜单是卡片。卡片在卡座上通电就跑起来，拖出卡座就停。
+```bash
+cd app
+npm install
+npm run dev        # → http://localhost:5173
+npx tsc --noEmit   # zero errors
+```
 
-**你不只是"使用 AI"。你是在冶炼知识。** 矿石进熔炉，金属出来。原始协作进空间，.card 出来。
+### What it does
 
----
+- **Drag files in** — Excel, Markdown, CSV, images, scripts — everything becomes a card
+- **Open a workbench** — double-click a card, start chatting with AI. Context cards are auto-injected
+- **Multi-model** — 9 providers, 3 native protocols (OpenAI, Anthropic Messages, Gemini)
+- **Built-in tools** — `card_read`, `card_create`, `card_update`, `card_tag`, `card_search`, `card_list`
+- **Script sandbox** — tool cards run in Web Workers. No DOM, no network, no filesystem access
+- **Three collaboration modes** — pipeline (serial steps), team (parallel personas), orchestrator (AI-directed delegation)
+- **Export** — right-click cards → package as `.card` → edit metadata, scan privacy, encrypt (AES-256-GCM), sign (ECDSA P-256), download
+- **Import** — four-step verification: unpack → security check → signature validation → select contents
+- **Provenance chain** — every re-export appends a signature. Full modification history visible on import
+- **Trust network** — decentralized contact trust based on repeated encounters, not central authority
+- **Bilingual** — Chinese and English throughout
 
-## 核心能力
+### Architecture
 
-### 空间（画布 + 卡片）
+```
+foundation/   → types, i18n
+platform/     → storage (OPFS), settings (AES-encrypted API keys)
+features/     → ai, identity, import, export, sandbox, snapshot, tool-registry, mode, templates
+ui/           → canvas, card, dock, pack, workbench, panels, dialogs, components
+```
 
-- **无限画布**：像 Google Maps 一样拖拽缩放。网格背景。小地图快速跳转
-- **卡片物理**：拖拽有延迟跟随、弹簧回弹、惯性投掷。拾起放大、松手回落。不是像素跟手——是有重量的感觉
-- **万物皆卡**：Excel、Markdown、图片、Python 脚本、CSV、JSON——拖进空间后全是同一种东西：卡片。左上角类型角标，左侧状态线，背面是数据实体
-- **快照预览**：每张卡生成一张缩略图 PNG。文本渲染为迷你页面，CSV 渲染为迷你表格，图片直接缩小。卡片上不是文件类型图标——是你认得出来的内容缩略图
-- **卡包**：收纳容器。虚线框折叠/展开。拖卡片到包上自动入包
-- **多选框选**：Shift+拖框蓝色矩形，框内卡片全选。多张一起拖、一起删
+Four-layer unidirectional dependency. Only `platform/storage.ts` touches the filesystem.
 
-### 工作台
+## Why this matters
 
-- **会话即卡片**：新建工作台就是新建一张卡片。双击打开浮窗，关闭后卡片还在。下次打开，对话恢复
-- **左右分栏**：左边图标列 50px——上下文、工具、临时文件、陈列、模式。点图标弹出抽屉。右边 410px——对话历史 + 输入区
-- **上下文区**：把画布卡片拖进来或从选择器勾选——AI 自动收到卡片完整内容。点卡片标签可编辑"AI 将看到什么"——删掉敏感行、加注释、切换为"仅标题"。编辑不影响原卡片
-- **工具区**：把脚本卡拖进来——AI 就能调它。`cleanup.py` 在 Worker 沙箱里执行，无网络、无文件系统、无 DOM
-- **AI 临时文件区**：AI 的产出——报告、数据、中间文件——自动出现。点"建卡"→变成画布上的正式卡片
-- **思考链发送**：AI 的内部推理过程默认发送最近一轮。三档控制：关闭/仅最近/全部
-- **对话时间线**：顶部一条极细的点线。每 5 分钟一个蓝色点。长对话快速导航
-- **上下文编辑**：每张卡可编辑发给 AI 的内容——加注释、删敏感信息、切换"仅标题"。编辑存在当前会话，不碰原卡片
+I'm not a CS PhD. I built this with a university laptop and an AI model that isn't even the best one available. I didn't write a single line of code — but I defined every interaction, every design decision, every frame of animation.
 
-### AI 即服务
+The .card format and Smelt prove one thing: **in human-AI collaboration, the definer doesn't need to be the executor.** What matters is being able to say: this is what it should feel like. This is what should happen when you drag a card onto a dock. This is how trust between strangers should work.
 
-- **9 个模型**：DeepSeek、Claude、GPT、Gemini、Kimi、通义千问、智谱、Groq、自定义。工作台顶部下拉切换
-- **三协议原生**：OpenAI、Anthropic Messages、Gemini 各走各的原生 API。不是兼容层——是真正的适配器
-- **工具系统**：6 个内置 tool（card_read/list/search/create/update/tag）+ 脚本执行（script_run）。每条声明三段式：能做什么、不能做什么、要不要确认
-- **自动/手动模式**：手动模式每步写入弹确认条。自动模式直接执行，状态条显示"AI 刚才调用了 card_update"。随时切换
-- **工具自动推荐**：你说"帮我分析这份数据"→ `card_read` 自动加入工具列表。你说"帮我改标签"→ `card_tag` 自动加。不需要知道有什么工具
+The code was written by AI. The thinking was human. The output is open.
 
-### 多模型协作
+## License
 
-- **管线模式**：写一张步骤清单。"DeepSeek 分析数据 → Claude 写报告 → Qwen 校验"。每步产出可见卡片，中间可暂停编辑
-- **团队模式**：定义多个角色。"质疑者·DeepSeek"、"分析师·Claude"、"保守派·Qwen"——同一问题同时发给不同角色。并行回复，各自从自己的 persona 出发
-- **编排模式**：一个总指挥模型调度其他模型。动态决定调谁、给什么 prompt。中间产物全程可见卡片
-
-### 导出与流转
-
-- **导出原文件**：右键一张卡 → 直接下载原始文件。交作业、发邮件
-- **打包为 .card**：右键选中卡 → 弹出编辑面板。填名称、作者、标签、版本、修改说明。勾选加密和签名。一键生成 README。隐私扫描自动检测 API Key、邮箱、手机号
-- **格式开放**：ZIP 包，内部 JSON + 原始文件。改名 .zip 就能解压看到里面有什么。任何语言都能读写
-- **签名与来源链**：ECDSA P-256 密钥自动生成存浏览器。每次签名追加到链。导入时展示完整转手历史——"Dalu 创建 → 李明修改报告 → 王芳添加结论"。每步可验证
-- **加密**：AES-256-GCM。密码不对读不了。解密后在任何空间可读
-- **信任网络**：第一次收到 Dalu 的 .card → "首次见此签名者"。第十次 → "已信任（10次）"。去中心化信任——和人认识人的过程一样
-- **身份可迁移**：导出密钥为 JSON 文件。换浏览器 → 导入 → 身份恢复。不锁在 OPFS 里
+MPL 2.0 — the spec is open; implementations in any language are welcome.
 
 ---
 
-## 设计哲学
-
-**空间不建功能——空间只渲染卡片和传递事件。** 所有的"功能"都是某个人做的某张卡在卡座上跑出来的。烟花按钮、记忆库面板、数据分析工具——都是 .card。空间的复杂度不增长，增长的只有卡片。
-
-**卡片不分类型。** 同一张 Python 脚本卡——放画布上不动就是数据，拖进工作台就是 AI 的工具，插上卡座就是一直运行的自动化程序。放哪里决定它做什么。不是卡的类型决定行为——是用户把卡放在哪里决定行为。
-
-**格式 > 平台。** 大企业可以做一个超强的空间——权限管理、实时协作、企业 SSO。但它导出的 .card 和你在浏览器里导出的 .card 是同一个格式。企业靠附加值留住用户，不能靠格式锁定。
-
-**用户拥有自己的数据。** .card 存在用户硬盘上。空间丢了就丢了，.card 拖回来五分钟恢复。不是平台拥有你的产出——是你的磁盘拥有你的产出。
-
----
-
-## 技术概要
-
-- **运行时**：浏览器。任何操作系统。PWA 离线可用
-- **存储**：OPFS（Origin Private File System）持久化。自动申请 `persist()` 权限防清理
-- **安全**：三重沙箱。浏览器无 shell → Web Worker 无网络无 DOM → 工作台 AI 只看到被加入的卡片
-- **协议**：原生 Anthropic Messages API + OpenAI Chat Completions + Gemini GenerateContent。9 个 provider 自适应
-- **加密**：AES-256-GCM + PBKDF2（10 万次迭代）。签名：ECDSA P-256
-- **国际化**：中英双语，全量 `t()` 覆盖
-- **代码**：TypeScript，42 源文件，零编译错误。四层单向架构（foundation → platform → features → ui）
-
----
-
-## 未来
-
-- **独立打包工具**：一个极简网页。拖文件 → 填信息 → 下载 .card。不用打开空间就能打包
-- **社区工具生态**：用户做的工具卡——pandas 数据分析、本地文件批量处理、图床转换——拖进工具区就能用。任何人都能发布
-- **移动端**：PWA 已是地基。触屏优化后手机和平板能用
-- **文件系统桥接**：File System Access API 让空间直接读写本地文件夹。卡片 = 真实文件的实时镜像
-- **本地小模型**：浏览器内跑 WebLLM，做 prompt 意图识别和自动分流。不依赖云端
-- **协作**：同一张工作台，两个人两个浏览器同时对话。卡片实时同步
-
----
-
-> Smelt 不回答"AI 能做什么"——它回答**"人+AI 之后，留下了什么"**。
+Built by [@Che-A-Lu](https://github.com/Che-A-Lu) (Dalu Wang), Shanghai, July 2026.
