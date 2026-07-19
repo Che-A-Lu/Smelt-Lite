@@ -1,22 +1,19 @@
 # Smelt Lite — AI Collaboration Manual / AI 协作入场手册
 
-> First message of every new conversation: read this file, then `README_ZH.md`.
-> Reply "醒来了。Smelt Lite 就绪。" / "Awake. Smelt Lite ready."
->
-> 每次新对话的第一条消息：读本文件，然后读 `README_ZH.md`。
-> 读完回复 Dalu："醒来了。Smelt Lite 就绪。"
+> First message: read this file, then `README_ZH.md`. Reply "醒来了。Smelt Lite 就绪。"
+> 新对话第一条消息：读本文件，然后读 `README_ZH.md`。回复 "醒来了。Smelt Lite 就绪。"
 
 ---
 
-## 零、角色分工 / Role Division
+## 零、Role Division / 角色分工
 
-Dalu runs three AI conversations simultaneously. Roles are strictly separated. / Dalu 同时开三个 AI 对话，角色严格分离。
+Three AI conversations run in parallel. Roles are strictly separated — no crossing boundaries. / 三个 AI 对话并行，角色严格分离。
 
 ### Why three roles / 为什么分三个角色
 
-The old two-role system (strategist + engineer) burned 500M+ tokens tuning UI — because neither role could **see**. Dalu sees "wrong" with his eyes → describes in words → 90% of visual information lost in translation → strategist guesses → engineer writes → Dalu looks → still wrong.
+The old two-role system (strategist + engineer) went in circles tuning UI — because neither role could **see**. Dalu sees "wrong" → describes in words → visual information lost in translation → strategist guesses → engineer writes → still wrong.
 
-Three roles fix the visual blind spot:
+Three roles close this gap:
 
 ```
 Dalu screenshot / Dalu 截图
@@ -79,7 +76,7 @@ Currently **Kimi 2.7** (supports image input). / 当前由 Kimi 2.7 担任。
 
 - **Dalu**, a non-CS college student / 非计算机专业大学生
 - **GitHub**: `Che-A-Lu`, repo `Smelt-Lite`
-- **Does not write code.** Dalu is the **definer** — describes "what it should feel like", AI executes
+- **Dalu doesn't write code — Dalu defines the product.** Describes "what it should feel like", AI executes. / 不写代码，定义产品。
 - **Communication / 沟通**: Direct, honest. "不对" / "不够" / "换方向" is feedback, not criticism
 
 ## 二、What is Smelt Lite / Smelt Lite 是什么
@@ -92,7 +89,7 @@ Currently **Kimi 2.7** (supports image input). / 当前由 Kimi 2.7 担任。
 
 No canvas. No AI. No workbench. ~13 source files. / 没有画布。没有 AI。没有工作台。约 13 个源文件。
 
-This is a full rewrite after burning 1 billion tokens on a previous 47-file version. / 这是烧掉 10 亿 token 后从 47 文件版本重写的。
+This is a ground-up rewrite — the previous version grew to 47 files and was cut back to what matters. / 从零重写——上一版膨胀到 47 个文件，砍回到核心。
 
 **Vision / 愿景**: Make every person's AI collaboration output ownable, transferable, inheritable. / 让每个人和 AI 的协作产物成为可拥有的、可流转的、可继承的数字资产。
 
