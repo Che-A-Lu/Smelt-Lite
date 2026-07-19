@@ -1,0 +1,57 @@
+:root {
+  --bg: #F8F9FB;
+  --surface: #FFFFFF;
+  --surface-hover: #F9FAFB;
+  --primary: #1E3A5F;
+  --primary-hover: #152A45;
+  --accent: #3B82F6;
+  --accent-soft: #EFF6FF;
+  --border: #E5E7EB;
+  --border-dashed: #D1D5DB;
+  --text: #111827;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-panel: 0 8px 30px rgba(0,0,0,0.10);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px;
+  --space-4: 16px; --space-5: 20px; --space-6: 24px;
+  --space-8: 32px; --space-10: 40px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 22px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 通用过渡 */
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; border: none; background: none; }
+input { outline: none; }
+
+/* 全局动画 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-3px); }
+  75%      { transform: translateX(3px); }
+}
+.animate-in { animation: fadeIn 200ms ease-out; }
+.animate-shake { animation: shake 200ms ease-out; }
