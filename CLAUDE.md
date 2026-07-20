@@ -115,11 +115,12 @@ Smelt-Lite/
 │   │   ├── foundation/  # types + i18n
 │   │   ├── features/    # import + export + identity + snapshot
 │   │   └── ui/          # DropInput + PreviewCard + PackPanel + ImportView
-│   ├── 提示词.md        # Standard prompts for AI tools
+│   ├── 提示词.md        # Standard prompts (also in prompts/)
 │   └── .card格式规范-v2.md
+├── prompts/             # Standalone prompt library — these ARE the product
 ├── docs/
-│   ├── design/          # Design documents
-│   ├── construction/    # Historical construction records
+│   ├── archive/         # Old 47-file Smelt design docs (historical)
+│   ├── construction/    # All construction records
 │   └── articles/
 ├── FORMAT.md / SPEC.md
 ├── README.md / README_ZH.md

@@ -4,6 +4,18 @@
 
 ---
 
+## Use it now / 立刻用
+
+Already working with AI? Here's the 30-second path from conversation to `.card`:
+
+1. **[Copy a prompt →](prompts/)** Paste it into your AI conversation. The AI outputs structured JSON.
+2. **[Open Smelt Lite →](https://che-a-lu.github.io/Smelt-Lite/)** Drag the JSON in. Add your files. Click pack.
+3. **Download your `.card`.** Send it to someone. They drag it in and see everything.
+
+No install. No account. No terminal.
+
+---
+
 ## What is this?
 
 **Smelt Lite** is the first, smallest piece of Smelt. It does exactly one thing: prove that the `.card` format works.
